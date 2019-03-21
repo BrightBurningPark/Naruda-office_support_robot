@@ -2,7 +2,7 @@
   "name": "naruda-server",
   "version": "0.0.1",
   "main": "index.js",
-  "repository": "https://github.com/crosstreet74/escher-coatle",
+  "repository": "https://github.com/YouDaHe/Naruda---office-support-robot",
   "author": "20-words-with-blanks",
   "license": "MIT",
   "scripts": {
@@ -33,6 +33,7 @@
     "concurrently": "^4.1.0",
     "css-loader": "^2.1.0",
     "html-webpack-plugin": "^3.2.0",
+    "mysql": "^2.16.0",
     "nodemon": "^1.18.10",
     "react-hot-loader": "next",
     "style-loader": "^0.23.1",
