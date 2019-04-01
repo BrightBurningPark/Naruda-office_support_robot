@@ -1,11 +1,9 @@
-// ./server/src/client/App.js
+// ./web-app/src/components/App.js
 
-import React, { Component } from 'react';
-import './App.css';
-import { hot } from 'react-hot-loader'
+import React, { Component } from 'react'
+import './App.css'
 
-
-class MyComponent extends Component {
+class App extends Component {
   state = {
     hi : "hello!"
   }
@@ -18,4 +16,4 @@ class MyComponent extends Component {
   }
 }
 
-export default hot(module)(MyComponent);
+export default App

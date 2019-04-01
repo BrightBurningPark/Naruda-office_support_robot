@@ -1,9 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
- 
+
 const outputDirectory = "dist";
- 
+
 module.exports = {
   entry: "./src/index.js",
   output: {
@@ -30,11 +30,13 @@ module.exports = {
     port: 3000,
     open: true,
     proxy: {
-      "/api": "http://localhost:8080"
+      "/api": "http://localhost:3000"
     }
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ['./dist/*']
+    }),
     new HtmlWebpackPlugin({
       template: "./public/index.html"
     })

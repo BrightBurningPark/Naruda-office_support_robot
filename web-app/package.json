@@ -1,6 +1,6 @@
 {
   "name": "naruda-server",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
   "repository": "https://github.com/YouDaHe/Naruda---office-support-robot",
   "author": "20-words-with-blanks",
@@ -14,7 +14,6 @@
   },
   "build": "webpack",
   "dependencies": {
-    "axios": "^0.18.0",
     "express": "^4.16.4",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
