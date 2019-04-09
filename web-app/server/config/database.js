@@ -1,14 +1,17 @@
 // ./web-app/server/config/database.js
 
-var mysql = require("mysql");
-var connection = mysql.createConnection({
+const mysql = require("mysql");
+
+const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'db-user1',
-  password: '12345678'
-});
+  user: 'db_user01',
+  password: '159753',
+  port: '3306',
+  database: 'naruda_db01'
+})
 
-connection.connect();
+connection.connect()
 
-//connection.end();
+//connection.end()
 
-module.exports = connection;
+module.exports = connection
