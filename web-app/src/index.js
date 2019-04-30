@@ -3,11 +3,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import io from 'socket.io-client'
-import { hot } from 'react-hot-loader'
 import App from './components/App'
 
-const socket = io('http://localhost:3000');
+const socket = io('http://localhost:3000')
 
 ReactDOM.render(<App />, document.getElementById('root'))
 
-export default hot(module)(App)
+module.hot.accept()
+export default App

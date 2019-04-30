@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 
@@ -31,9 +32,12 @@ module.exports = {
     open: true,
     proxy: {
       "/api": "http://localhost:3000"
-    }
+    },
+    hot: true
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin()
+    ,
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: ['./dist/*']
     }),

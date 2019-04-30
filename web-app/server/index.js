@@ -5,8 +5,8 @@ const path = require('path')
 const mysql = require('mysql')
 const socketIO = require('socket.io')
 const app = express()
-const dbconfig   = require('./config/database.js')
-const connection = mysql.createConnection(dbconfig)
+// const dbconfig   = require('./config/database.js')
+// const connection = mysql.createConnection(dbconfig)
 const PORT = process.env.PORT || 3000
 
 app.use(express.static('dist'))
