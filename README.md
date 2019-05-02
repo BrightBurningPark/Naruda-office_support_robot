@@ -6,7 +6,7 @@ we are trying to make a robot which can get around by itself, and doing some sma
 # Project Members
 - 방성호
 - 박준혁
-- 김동현
+- 김동현 test commit
 - 권태성 ()
 
 ## Wiki is WIP [here](https://github.com/YouDaHe/Naruda---office-support-robot/wiki)
