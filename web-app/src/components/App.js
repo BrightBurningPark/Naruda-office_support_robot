@@ -10,9 +10,10 @@ import './TeskList.js'
 
 class App extends Component {
   
-  
-  
-  
+  // state implicity
+
+
+
   render() {
     return (
       <div>
