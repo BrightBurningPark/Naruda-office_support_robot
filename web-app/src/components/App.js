@@ -1,23 +1,21 @@
 // ./web-app/src/components/App.js
 
 import React, { Component } from 'react'
+import Contents from "./Contents"
+import Main from "./Main"
 import './App.css'
-import './CenterArea.js'
-import './LeftBar.js'
-import './TeskList.js'
 
 
 
 class App extends Component {
   
-  // state implicity
-
-
-
   render() {
     return (
-      <div>
-        
+      <div classNmae="App">
+       <Main title = "나르다" sub="제목"></Main>
+       <Contents></Contents>
+
+
       </div>
     );
   }
