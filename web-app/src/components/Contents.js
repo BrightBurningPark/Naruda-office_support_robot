@@ -6,7 +6,7 @@ class Contents extends Component{
       return(
         <nav>
           <ul>
-            <li><a href="C:\Users\ehdgu\Documents\GitHub\Naruda-office_support_robot\web-app\public">what</a></li>
+            
           </ul>
         </nav>
       );
