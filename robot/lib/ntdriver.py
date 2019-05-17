@@ -10,7 +10,7 @@ class server:
     sio = socketio.Client()
 
     def __init__(self):
-        pass
+        request = None
 
     def connect(self):
         sio.connect(SERVER_ADDR)
@@ -22,7 +22,16 @@ class server:
     @sio.on('message')
     def on_message(data):
         print(data)
-        print('message received')
+        print('default message received')
+
+    @sio.on('request')
+    def on_request(req):
+        if self.request == None:
+            print('received request from server')
+            self.reqest = req
+        else:
+            print('already busy!')
+            #TODO: maybe... sending ack?
 
     @sio.on('disconnect')
     def on_disconnect():
