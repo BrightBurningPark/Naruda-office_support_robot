@@ -53,6 +53,13 @@ COMM_STRING = 0x01
 ACK_STRING = 0x02
 
 
+#command protocol for robot harware control  automation
+FORWARD     = 1
+BACKWARD    = 2
+LEFT        = 3
+RIGHT       = 4
+STOP        = 5
+
 class lego_nxt:
     def __init__(self):
         self.NXTdevice = None        
