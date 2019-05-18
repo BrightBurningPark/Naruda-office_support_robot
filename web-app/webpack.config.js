@@ -1,6 +1,7 @@
 // ./web-app/webpack.config.js
 
 const webpack = require("webpack");
+const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const port = process.env.PORT || 3000;
@@ -10,6 +11,11 @@ module.exports = {
   output: {
     path: __dirname + '/dist',
     filename: 'bundle.[hash].js'
+  },
+  resolve: {
+    alias: {
+      '../../theme.config$': path.resolve(__dirname, './src/theme.config')
+    },
   },
   module: {
     rules: [
@@ -24,8 +30,12 @@ module.exports = {
         /*  style-loader, css-loader 활용법
         * import { padaLog } from '../styles/padalog.css
         */
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        test: /\.(css|less)$/,
+        use: ["style-loader", "css-loader", "less-loader"]
+      },
+      {
+        test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
+        loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]'
       }
     ]
   },
@@ -38,7 +48,15 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/public/index.html",
       favicon: './src/public/favicon.ico'
-    })
+    }),
+    new webpack.ProvidePlugin(
+      {
+        $: 'jquery',
+        'jQuery': 'jquery',
+        'jquery': 'jquery',
+        'window.jQuery': 'jquery',
+      }
+    ),
   ],
   devServer: {
     host: 'localhost',

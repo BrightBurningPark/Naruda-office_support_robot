@@ -1,7 +1,7 @@
 const React = require('react')
 const { Link } = require('react-router-dom')
 
-const Menu = () => {
+const HomeMenu = () => {
     return (
         <div>
             <ul>
@@ -13,4 +13,4 @@ const Menu = () => {
     );
 };
 
-export default Menu;
+export default HomeMenu;

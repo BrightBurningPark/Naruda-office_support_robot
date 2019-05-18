@@ -56,6 +56,9 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
+# Output of 'webpack'
+dist/
+
 # Yarn Integrity file
 .yarn-integrity
 
