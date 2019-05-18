@@ -23,7 +23,8 @@ def testcode():
     print(t_slam.x, t_slam.y, t_slam.theta)
 
 def process_request():
-    #TODO: code for handling request
+    #TODO: code for handling request. request stored in server instance
+    navi.search((t_slam.x, t_slam.y), ser.req)
 
 def sweep_floor():
     #TODO: code for robovacuum-ing

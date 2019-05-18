@@ -50,7 +50,8 @@ class narlam(threading.Thread):
             self.x, self.y, self.theta = self.slam.getpos()
 
             self.slam.getmap(self.mapbytes)
-
+            
+            # visualize screen should be executed on main thread, not the subthread.
             '''
             if not self.viz.display(self.x/1000., self.y/1000., self.theta, self.mapbytes):
                 exit(0)
