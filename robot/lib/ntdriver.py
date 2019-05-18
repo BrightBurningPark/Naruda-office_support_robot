@@ -6,14 +6,14 @@ import os
 import socketio
 
 class server:
-    SERVER_ADDR = '13.209.49.139: 3000'
+    SERVER_ADDR = '13.209.49.139:3000'
     sio = socketio.Client()
 
     def __init__(self):
         request = None
 
     def connect(self):
-        sio.connect(SERVER_ADDR)
+        server.sio.connect(server.SERVER_ADDR)
 
     @sio.on('connect')
     def on_connect():
