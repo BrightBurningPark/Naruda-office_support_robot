@@ -8,7 +8,7 @@ import io
 import os
 
 
-MAP_SIZE_PIXELS     = 10000
+MAP_SIZE_PIXELS     = 1000
 MAP_SIZE_METERS     = 10 #10m * 10m plain
 LIDAR_DEVICE        = '/dev/ttyUSB0'
 
@@ -53,7 +53,7 @@ class narlam:
 
             self.slam.getmap(self.mapbytes)
 
-            image = Image.frombuffer('L', (MAP_SIZE_PIXELS, MAP_SIZE_PIXELS), mapbytes, 'raw', 'L', 0, 1)
+            image = Image.frombuffer('L', (MAP_SIZE_PIXELS, MAP_SIZE_PIXELS), self.mapbytes, 'raw', 'L', 0, 1)
             image.save(map_dir+'map.png')
             
             # visualize screen should be executed on main thread, not the subthread.
