@@ -14,8 +14,7 @@ class navigation:
 
     def search(self, start, goal):
         self.start_node = start
-        self.goal_node = goal
-        inverted_map = 
+        self.goal_node = goal 
         self.path, self.path_px = a_star(self.start_node, self.goal_node, self.gmap, movement='8N')
         if self.path == None:
             print('goal is not reachable')
