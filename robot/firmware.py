@@ -7,7 +7,7 @@ it can also build the map from zero.
 
 I Love my school and the Capstone Program SO MUCH. it's true story ^^.
 '''
-# python common library import
+# python basic or pip-installed library import
 import sys
 import math
 import time
