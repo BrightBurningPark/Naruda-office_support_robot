@@ -2,6 +2,7 @@ import math
 import png
 import numpy
 import matplotlib.pyplot as plt
+from PIL import ImageOps
 
 
 def dist2d(point1, point2):
@@ -28,7 +29,21 @@ def png_to_ogm(filename, normalized=False, origin='lower'):
     :param origin:
     :return:
     """
-    r = png.Reader(filename)
+
+    # additional edit: it inverses image. because it has opposite representation with SLAM driven map
+    image = Image.open(filename)
+    if image.mode == 'RGBA':
+        r, g, b, a = Image.split()
+        rgb_image = Image.merge('RGB', (r, g, b))
+        inverted_image = ImageOps.invert(rgb_image)
+        r2, g2, b2 = inverted_image.split()
+        final_transparent_image = Image.merge('RGBA', (r2, g2, b2, a))
+        final_transparent_image.save('inv_map.png')
+    else:
+        inverted_image = ImageOps.invert(image)
+        inverted_image.save('inv_map.png')
+
+    r = png.Reader('inv_map.png')
     img = r.read()
     img_data = list(img[2])
 

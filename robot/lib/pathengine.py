@@ -4,8 +4,8 @@ from utils import plot_path
 import matplotlib.pyplot as plt
 
 class navigation:
-    def __init__(self):
-        self.gmap = ogm.from_png('/home/odroid/capdi/robot/maps/example_map_occupancy.png', 1)
+    def __init__(self, map_dir):
+        self.gmap = ogm.from_png(map_dir+'map.png', 1)
         self.start_node = (0.0, 0.0)
         self.goal_node  = (0.0, 0.0)
         self.path       = []
@@ -15,6 +15,7 @@ class navigation:
     def search(self, start, goal):
         self.start_node = start
         self.goal_node = goal
+        inverted_map = 
         self.path, self.path_px = a_star(self.start_node, self.goal_node, self.gmap, movement='8N')
         if self.path == None:
             print('goal is not reachable')

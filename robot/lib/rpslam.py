@@ -3,12 +3,16 @@ from breezyslam.sensors import RPLidarA1 as LaserModel
 from rplidar import RPLidar as Lidar
 from roboviz import MapVisualizer
 
+from PIL import Image
+import io
+import os
 
-MAP_SIZE_PIXELS     = 2500
+
+MAP_SIZE_PIXELS     = 10000
 MAP_SIZE_METERS     = 10 #10m * 10m plain
 LIDAR_DEVICE        = '/dev/ttyUSB0'
 
-MIN_SAMPLES         = 100 #default value 200, maximum 250, odroid maximum 140
+MIN_SAMPLES         = 120 #default value 200, maximum 250, odroid maximum 140
 
 
 class narlam:
@@ -27,7 +31,7 @@ class narlam:
         self.y      = None
         self.theta  = None
 
-    def slam_no_map(self):
+    def slam_no_map(self, map_dir):
         # doing slam with building maps from zero simulaneously
         next(self.iterator)
 
@@ -48,6 +52,9 @@ class narlam:
             self.x, self.y, self.theta = self.slam.getpos()
 
             self.slam.getmap(self.mapbytes)
+
+            image = Image.frombuffer('L', (MAP_SIZE_PIXELS, MAP_SIZE_PIXELS), mapbytes, 'raw', 'L', 0, 1)
+            image.save(map_dir+'map.png')
             
             # visualize screen should be executed on main thread, not the subthread.
             '''
@@ -59,11 +66,11 @@ class narlam:
         self.lidar.disconnect()
 
 
-    def slam_yes_map(self):
+    def slam_yes_map(self, map_dir):
         # doing localization only, with pre-built map image file.
         next(self.iterator)
 
-        with open("map.png", "rb") as map_img:
+        with open(map_dir+"map.png", "rb") as map_img:
             f = map_img.read()
             b = bytearray(f)
             self.slam.setmap(b)

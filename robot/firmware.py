@@ -22,6 +22,10 @@ import pathengine   # shortest path finding engine
 import rpslam       # BreezySLAM(tinySLAM Implementation) with RPLidar A1
 
 
+#global var used over firmware and libs
+MAP_FILE_DIR = '/home/odroid/capdi/robot/maps/'
+
+
 def testcode():
     cmd = input('>> ')
     nxt.send(cmd)
@@ -30,10 +34,17 @@ def testcode():
 def drive(start, goal):
     print('start from start')
     for rp in navi.path_rally:
-        while math.hypot(rp[0]-slamjam.x, rp[1]-slamjam.y) <= 10:
+        dx = rp[0]-slamjam.x
+        dy = rp[1]-slamjam.y
+        while math.hypot(dx, dy) <= 10:
+            rad = math.atan(dy/dx)
+            deg = rad*(180/math.pi)
+            if deg > slamjam.theta:
+                nxt.send(RIGHT)
+            elif deg < slamjam.theta:
+                nxt.send(LEFT)
             #go forward, and turn left or right till the angle of head is similar to destination
             nxt.send(FORWARD)
-            # calculate angle and turn to that way.
         nxt.send(STOP)
     print('arrived to destination')
 
@@ -59,13 +70,14 @@ def connect_all():
     nxt.connect()
     ser.connect()
 
+
 if __name__ == "__main__":
     print ('firmware started')
     
     #making instances for firmware functionality
     nxt     = ntdriver.lego_nxt()
     ser     = ntdriver.server()
-    navi    = pathengine.navigation()
+    navi    = pathengine.navigation(MAP_FILE_DIR)
 
     connect_all()
 
