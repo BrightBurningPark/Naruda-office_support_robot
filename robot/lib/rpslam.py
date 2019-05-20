@@ -1,7 +1,7 @@
 from breezyslam.algorithms import RMHC_SLAM
 from breezyslam.sensors import RPLidarA1 as LaserModel
 from rplidar import RPLidar as Lidar
-from roboviz import MapVisualizer
+#from roboviz import MapVisualizer # this occurs error when there's no display connected on odroid
 
 from PIL import Image
 import io
@@ -31,7 +31,7 @@ class narlam:
         self.y      = None
         self.theta  = None
 
-    def slam_no_map(self, map_dir):
+    def slam_no_map(self, path_map):
         # doing slam with building maps from zero simulaneously
         next(self.iterator)
 
@@ -54,7 +54,7 @@ class narlam:
             self.slam.getmap(self.mapbytes)
 
             image = Image.frombuffer('L', (MAP_SIZE_PIXELS, MAP_SIZE_PIXELS), self.mapbytes, 'raw', 'L', 0, 1)
-            image.save(map_dir+'map.png')
+            image.save(path_map+'/map.png')
             
             # visualize screen should be executed on main thread, not the subthread.
             '''
@@ -66,11 +66,11 @@ class narlam:
         self.lidar.disconnect()
 
 
-    def slam_yes_map(self, map_dir):
+    def slam_yes_map(self, path_map):
         # doing localization only, with pre-built map image file.
         next(self.iterator)
 
-        with open(map_dir+"map.png", "rb") as map_img:
+        with open(path_map+"/map.png", "rb") as map_img:
             f = map_img.read()
             b = bytearray(f)
             self.slam.setmap(b)

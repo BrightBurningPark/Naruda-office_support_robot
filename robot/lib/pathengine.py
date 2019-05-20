@@ -4,17 +4,22 @@ from utils import plot_path
 import matplotlib.pyplot as plt
 
 class navigation:
-    def __init__(self, map_dir):
-        self.gmap = ogm.from_png(map_dir+'map.png', 1)
+    def __init__(self):
+        #self.gmap = ogm.from_png(map_dir+'map.png', 1)
         self.start_node = (0.0, 0.0)
         self.goal_node  = (0.0, 0.0)
         self.path       = []
         self.path_px    = []
         self.path_rally = []
 
-    def search(self, start, goal):
+    def load_map(self, path_map):
+        #this fucntion only loads map on the class. normally we don't need to use this, because search do the same things.
+        self.gmap = ogm.from_png(path_map, 1)
+
+    def search(self, path_map, start, goal):
+        self.gmap = ogm.from_png(path_map, 1)
         self.start_node = start
-        self.goal_node = goal 
+        self.goal_node = goal
         self.path, self.path_px = a_star(self.start_node, self.goal_node, self.gmap, movement='8N')
         if self.path == None:
             print('goal is not reachable')

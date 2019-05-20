@@ -21,9 +21,9 @@ import ntdriver     # network driver
 import pathengine   # shortest path finding engine
 import rpslam       # BreezySLAM(tinySLAM Implementation) with RPLidar A1
 
-
-#global var used over firmware and libs
-MAP_FILE_DIR = '/home/odroid/capdi/robot/maps/'
+PATH_ROBOT = "/home/odroid/capdi/robot"
+PATH_MAP = PATH_ROBOT + "/map"
+PATH_LIB = PATH_ROBOT + "/lib"
 
 
 def testcode():

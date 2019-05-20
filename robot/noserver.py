@@ -27,13 +27,15 @@ import rpslam       # BreezySLAM(tinySLAM Implementation) with RPLidar A1
 
 
 #global var used over firmware and libs
-MAP_FILE_DIR = '/home/odroid/capdi/robot/maps/'
+PATH_GENERAL = '/home/odroid/capdi/robot'
+PATH_MAP = PATH_GENERAL + '/maps'
+PATH_LIB = PATH_GENERAL + '/lib'
 
 
 def testcode():
     cmd = input('>> ')
     nxt.send(cmd)
-    print(slamjam.x, slamjam.y, slamjam.theta)
+#print(slamjam.x, slamjam.y, slamjam.theta)
 
 def drive(start, goal):
     print('start from start')
@@ -81,26 +83,21 @@ if __name__ == "__main__":
     
     #making instances for firmware functionality
     nxt     = ntdriver.lego_nxt()
-    navi    = pathengine.navigation(MAP_FILE_DIR)
+    navi    = pathengine.navigation()
 
     connect_all()
 
 
-    slamjam = rpslam.narlam()
+#slamjam = rpslam.narlam()
     #TODO: make this code giving ways to select yes_slam or no_slam 
-    t_slam = threading.Thread(target=slamjam.slam_no_map, args=(MAP_FILE_DIR,))
-    t_slam.start()
+#t_slam = threading.Thread(target=slamjam.slam_no_map, args=(PATH_MAP,))
+#t_slam.start()
     print('slam now operates')
 
     print('sleep for 10 sec')
     time.sleep(10)
 
-    print('test code starts.')
-    dest1 = (slamjam.x + 30, slamjam.y + 30)
-    dest2 = (slamjam.x + 30, slamjam.y - 60)
-
-    handle_request(dest1, dest2)
-
-    print("test drive done")
+    while(1):
+        testcode()
 
 
