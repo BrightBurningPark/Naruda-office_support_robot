@@ -1,6 +1,7 @@
 import React from 'react';
-import { Grid , Segment } from 'semantic-ui-react'
-import 'semantic-ui-less/semantic.less';
+import { Grid  } from 'semantic-ui-react'
+import 'semantic-ui-less/semantic.less'
+import Underbar from '../components/UnderLayout';
 import Mainbar from '../components/MainLayout'
 
 

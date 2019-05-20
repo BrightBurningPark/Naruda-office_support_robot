@@ -46,7 +46,7 @@ export default class SidebarExampleSidebar extends Component {
           </Grid.Column>
 
           <Grid.Column floated='right' width = {4}>
-            <Header size = 'huge'>TASK LIST</Header>
+            <Header size = 'large'>TASK LIST</Header>
           </Grid.Column>
         </Grid>
     )
