@@ -6,7 +6,7 @@ import os
 import socketio
 
 class server:
-    SERVER_ADDR = '13.209.49.139:3000'
+    SERVER_ADDR = 'http://13.209.49.139:3000'
     sio = socketio.Client()
 
     def __init__(self):
