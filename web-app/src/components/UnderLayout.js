@@ -5,7 +5,7 @@ import 'semantic-ui-less/semantic.less';
 
 
 
-export default class UnderLayout extends Componrnt{
+export default class UnderLayout extends Component{
     render(){
         return(
             <Grid>

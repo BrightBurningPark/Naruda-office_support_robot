@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid  } from 'semantic-ui-react'
 import 'semantic-ui-less/semantic.less'
-import Underbar from '../components/UnderLayout';
+import Mapbar from '../components/UnderLayout'
 import Mainbar from '../components/MainLayout'
 
 
@@ -12,7 +12,7 @@ const Main = () => {
                 <Mainbar/>
             </Grid.Row>
             <Grid.Row>
-                
+                <Mapbar />
             </Grid.Row>
         </Grid>
             
