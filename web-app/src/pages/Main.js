@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import { Container, Button, Menu, Visibility, Grid } from 'semantic-ui-react'
 import MainHeader from '../components/MainLayout'
+import MainSection from '../components/UnderLayout'
 
 const menuStyle = {
     border: 'none',
@@ -61,11 +62,9 @@ export default class Main extends Component {
                         <Grid.Row>
                             <MainHeader />
                         </Grid.Row>
-                        {/* 
                         <Grid.Row>
-                            {<Mapbar />}
+                            <MainSection />
                         </Grid.Row>
-                        */}
                     </Grid>
                     <Container text>
                         <Paragraph />

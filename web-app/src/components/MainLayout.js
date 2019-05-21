@@ -28,11 +28,11 @@ export default class MainHeader extends Component {
               onHide={this.handleSidebarHide}
               vertical
               visible={visible}
-              width='thin'
+              width='wide'
             >
 
               <Menu.Item as='a'>
-                 나르미 호출 
+                 물건 전달하기 
               </Menu.Item>
             </Sidebar>
           </Grid.Column>
