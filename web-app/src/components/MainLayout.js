@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Button, Header, Icon, Menu, Sidebar, Grid, Image, Segment } from 'semantic-ui-react'
+import { Button, Header, Icon, Menu, Sidebar, Grid } from 'semantic-ui-react'
 import 'semantic-ui-less/semantic.less';
 
 
-export default class SidebarExampleSidebar extends Component {
+export default class MainHeader extends Component {
   state = { visible: false }
 
   handleShowClick = () => this.setState({ visible: true })
@@ -28,11 +28,11 @@ export default class SidebarExampleSidebar extends Component {
               onHide={this.handleSidebarHide}
               vertical
               visible={visible}
-              width='wide'
+              width='thin'
             >
 
               <Menu.Item as='a'>
-                 물건 전달하기 
+                 function1
               </Menu.Item>
             </Sidebar>
           </Grid.Column>
