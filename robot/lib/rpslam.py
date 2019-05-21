@@ -10,7 +10,7 @@ import os
 
 MAP_SIZE_PIXELS     = 100
 MAP_SIZE_METERS     = 3 #10m * 10m plain
-LIDAR_DEVICE        = '/dev/ttyUSB1'
+LIDAR_DEVICE        = '/dev/ttyUSB14'
 
 MIN_SAMPLES         = 120 #default value 200, maximum 250, odroid maximum 140
 

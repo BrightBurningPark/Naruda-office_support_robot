@@ -138,7 +138,7 @@ class lego_nxt:
 
         # now let's wait for the brick to respond expecting 'ok' string
         # we are expecting 4 bytes in total
-        self.data = self.handle.bulkRead( self.NXTin.address, 4 )
+        self.data = self.handle.bulkRead( self.NXTin.address, 4, timeout = 5000)
 
         if self.data[0] == ACK_STRING and self.data[1:3].tostring().decode('utf-8') == 'ok':
             print ('Acknowledgment string received from the brick')
