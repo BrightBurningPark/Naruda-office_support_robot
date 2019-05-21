@@ -2,6 +2,20 @@ import React, {Component} from 'react'
 import { Segment , Grid , Image , Divider } from 'semantic-ui-react'
 import 'semantic-ui-less/semantic.less';
 import Mappoint from './Mappoint'
+import Task from './Task'
+
+const task = {
+    'id' : 1,
+    'start' : 'a',
+    'goal' : 'b',
+    'time' : '10 min'
+}
+
+
+
+
+
+
 
 export default class UnderLayout extends Component{
     render(){
@@ -16,7 +30,12 @@ export default class UnderLayout extends Component{
                 
                 
                 <Grid.Column width = {4}>
-                    <Segment>task</Segment>
+                    <Task
+                        id = {task.id}
+                        start = {task.start}
+                        goal = {task.goal}
+                        time = {task.time}
+                    />
                 </Grid.Column>
             </Grid>   
         )

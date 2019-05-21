@@ -32,7 +32,7 @@ export default class SidebarExampleSidebar extends Component {
             >
 
               <Menu.Item as='a'>
-                 나르미 호출 
+                 물건 전달하기 
               </Menu.Item>
             </Sidebar>
           </Grid.Column>

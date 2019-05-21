@@ -1,8 +1,14 @@
 import React, {Component} from 'react'
 import {Grid} from 'semantic-ui-react'
 import 'semantic-ui-less/semantic.less'
+import map from './map/example.png'
+
+
+
 
 export default class MapPoint extends Component{
+
+ 
 
     constructor(props) {
         super(props);
@@ -19,10 +25,13 @@ export default class MapPoint extends Component{
     
       render() {
         return (
-          <div style={{height: '100%'}} onMouseMove = {this.handleMouseMove}>
-            <h1>주변만 인식 그리드 할당</h1>
-            <p>({this.state.x}, {this.state.y})</p>
-          </div>
+          
+            <div ClassName = 'mapp' style={{height: '100%'}} onMouseMove = {this.handleMouseMove}>
+              <img src={map} alt='map'/>
+              <p>({this.state.x}, {this.state.y})</p>
+            </div>
+          
+          
         );
     
     
