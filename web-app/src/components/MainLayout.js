@@ -28,7 +28,7 @@ export default class SidebarExampleSidebar extends Component {
               onHide={this.handleSidebarHide}
               vertical
               visible={visible}
-              width='thin'
+              width='wide'
             >
 
               <Menu.Item as='a'>
