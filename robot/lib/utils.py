@@ -38,12 +38,12 @@ def png_to_ogm(filename, normalized=False, origin='lower'):
         inverted_image = ImageOps.invert(rgb_image)
         r2, g2, b2 = inverted_image.split()
         final_transparent_image = Image.merge('RGBA', (r2, g2, b2, a))
-        final_transparent_image.save('./inv_map.png')
+        final_transparent_image.save('./inverted_map.png')
     else:
         inverted_image = ImageOps.invert(image)
-        inverted_image.save('./inv_map.png')
+        inverted_image.save('./inverted_map.png')
 
-    r = png.Reader('./inv_map.png')
+    r = png.Reader('./inverted_map.png')
     img = r.read()
     img_data = list(img[2])
 

@@ -12,12 +12,13 @@ class navigation:
         self.path_px    = []
         self.path_rally = []
 
-    def load_map(self, path_map):
-        #this fucntion only loads map on the class. normally we don't need to use this, because search do the same things.
-        self.gmap = ogm.from_png(path_map, 1)
+    def load_map(self, path_map_name):
+        # this fucntion only loads map on the class.
+        # normally we don't need to use this, because search do the same things.
+        self.gmap = ogm.from_png(path_map_name, 1)
 
-    def search(self, path_map, start, goal):
-        self.gmap = ogm.from_png(path_map, 1)
+    def search(self, path_map_name, start, goal):
+        self.gmap = ogm.from_png(path_map_name, 1)
         self.start_node = start
         self.goal_node = goal
         self.path, self.path_px = a_star(self.start_node, self.goal_node, self.gmap, movement='8N')
@@ -28,7 +29,7 @@ class navigation:
         return {(1, -1):1, (0, -1):2, (-1, -1):3, (1, 0):4, (-1, 0):6, (1, 1):7, (0, 1):8, (-1, 1):9}.get((x, y), 5)
 
     def extarct_rally(self):
-        old_direction = 5 # initial direction is 5, and direction number follows number keypad
+        old_direction = 5 # initial direction is 5, and direction number follows calculator number keypad
         for i in range(len(self.path)):
             if i == len(self.path)-1:
                 self.path_rally.append(self.path[i])
