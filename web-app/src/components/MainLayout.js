@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Button, Header, Icon, Menu, Sidebar, Grid, Image, Segment } from 'semantic-ui-react'
+import { Button, Header, Icon, Menu, Sidebar, Grid } from 'semantic-ui-react'
 import 'semantic-ui-less/semantic.less';
 
 
-export default class SidebarExampleSidebar extends Component {
+export default class MainHeader extends Component {
   state = { visible: false }
 
   handleShowClick = () => this.setState({ visible: true })
