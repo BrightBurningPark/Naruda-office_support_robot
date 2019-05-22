@@ -2,7 +2,7 @@
   "name": "naruda-server",
   "version": "0.0.3",
   "main": "index.js",
-  "repository": "https://github.com/YouDaHe/Naruda---office-support-robot",
+  "repository": "https://github.com/BrightBurningPark/Naruda-office_support_robot",
   "author": "20-words-with-blanks",
   "license": "MIT",
   "scripts": {
