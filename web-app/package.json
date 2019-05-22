@@ -6,6 +6,7 @@
   "author": "20-words-with-blanks",
   "license": "MIT",
   "scripts": {
+    "clean": "rm -rf ./dist",
     "build": "webpack --progress",
     "server": "nodemon --exec babel-node ./src/server/index.js",
     "dev": "webpack-dev-server.js  --progress"

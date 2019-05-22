@@ -1,33 +1,36 @@
 import React, { Component } from 'react'
 import 'semantic-ui-less/semantic.less';
 import { Divider, Button, Form, Grid, Header, Segment } from 'semantic-ui-react'
+import { Redirect } from 'react-router'
 import axios from 'axios'
 
 
 class LoginForm extends Component {
     constructor(props) {
         super(props);
-        this.state = { email: '', password: '' }
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = { email: '', password: '', redirect: false }
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
     handleSubmit = () => {
         axios.post('http://localhost:3000/signin', {
-            email: 'admin',
-            password: 'admin'
-          })
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+            email: this.state.email,
+            password: this.state.password
+        }).then((res) => {
+            if (res == 'true') {
+                console.log('true')
+                e.preventDefault()
+                this.setState({ email: '', password: '', redirect: true })
+            }
+        }).catch(function (error) {
+            console.log(error)
+        })
     }
 
     render() {
-        const { email, password } = this.state
+        const { email, password, redirect } = this.state
 
         return (
             <div>
@@ -49,6 +52,9 @@ class LoginForm extends Component {
                 {/* to be removed */}
                 <strong>onChange:</strong>
                 <pre>{JSON.stringify({ email, password }, null, 2)}</pre>
+                {redirect && (
+                    <Redirect to={'/main'} />
+                )}
             </div>
         )
     }
