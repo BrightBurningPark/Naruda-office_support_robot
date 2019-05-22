@@ -32,7 +32,7 @@ export default class MainSection extends Component {
                         <Mappoint />
                     </Grid.Row>
                 </Grid.Column>
-                <Grid.Column width = {4}>
+                <Grid.Column floated = 'right' width = {4}>
                     <div>
                         {
                             task.map(c =>{
