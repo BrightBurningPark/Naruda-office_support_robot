@@ -6,11 +6,10 @@
   "author": "20-words-with-blanks",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --progress",
     "server": "nodemon --exec babel-node ./src/server/index.js",
-    "dev": "node --max-old-space-size=512 node_modules/webpack-dev-server/bin/webpack-dev-server.js  --inline --progress --config webpack.config.js"
+    "dev": "webpack-dev-server.js  --progress"
   },
-  "build": "webpack",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
