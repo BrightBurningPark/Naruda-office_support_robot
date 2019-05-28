@@ -62,18 +62,15 @@ export default class Main extends Component {
                         <Grid.Row>
                             <MainHeader />
                         </Grid.Row>
-                        <Grid.Row>
-                            <MainSection />
-                        </Grid.Row>
                     </Grid>
-                    <Container text>
+                    {/* <Container text>
                         <Paragraph />
                         <Paragraph />
                         <Paragraph />
                         <Paragraph />
                         <Paragraph />
                         <Paragraph />
-                    </Container>
+                    </Container> */}
                 </Container>
 
             </div>
