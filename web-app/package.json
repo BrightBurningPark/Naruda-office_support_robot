@@ -1,6 +1,6 @@
 {
   "name": "naruda-server",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "main": "index.js",
   "repository": "https://github.com/BrightBurningPark/Naruda-office_support_robot",
   "author": "20-words-with-blanks",
@@ -9,7 +9,7 @@
     "clean": "rm -rf ./dist",
     "build": "webpack --progress",
     "server": "nodemon --exec babel-node ./src/server/index.js",
-    "dev": "webpack-dev-server.js  --progress"
+    "dev": "webpack-dev-server --progress"
   },
   "dependencies": {
     "axios": "^0.18.0",
