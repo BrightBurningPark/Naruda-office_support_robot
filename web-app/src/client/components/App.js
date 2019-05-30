@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 import LoginForm from './LoginForm'
+import Main from './Main'
 
 @observer
 export default class App extends Component {
@@ -15,9 +16,7 @@ export default class App extends Component {
       )
     } else {
       return(
-        <div>
-          Login Success!
-        </div>
+        <Main/>
       )
 
     }
