@@ -1,13 +1,25 @@
-import React from 'react';
-import { Home, Main } from '../pages';
+import React, { Component } from 'react'
+import { observer } from 'mobx-react'
+import LoginForm from './LoginForm'
 
-const App = () => {
-  return (
-    <div>
-      <Home />
-      <Main />
-    </div>
-  );
-};
+@observer
+export default class App extends Component {
+  render() {
+    const { session, socket } = this.props;
 
-export default App;
+    if (!session.logedIn) {
+      return (
+        <LoginForm
+          login={socket.login}
+        />
+      )
+    } else {
+      return(
+        <div>
+          Login Success!
+        </div>
+      )
+
+    }
+  }
+}
