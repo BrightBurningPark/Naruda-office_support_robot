@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import LoginForm from './LoginForm'
+import Home from './Home'
 import Main from './Main'
 
 @observer
@@ -10,16 +10,12 @@ export default class App extends Component {
 
     if (!session.logedIn) {
       return (
-        <LoginForm
-          login={socket.login}
-        />
+        <Home login={socket.login} />
       )
     } else {
-      return(
-        <Main
-        signout={socket.signout}/>
+      return (
+        <Main session={session} socket={socket} />
       )
-
     }
   }
 }
