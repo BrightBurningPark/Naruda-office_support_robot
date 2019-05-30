@@ -16,7 +16,8 @@ export default class App extends Component {
       )
     } else {
       return(
-        <Main/>
+        <Main
+        signout={socket.signout}/>
       )
 
     }

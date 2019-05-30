@@ -9,6 +9,10 @@ class Socket {
   login = () => {
     this.session.logedIn = true;
   }
+
+  signout = () => {
+    this.session.logedIn = false;
+  }
 }
 
 export default Socket;
