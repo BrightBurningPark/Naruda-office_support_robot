@@ -32,10 +32,12 @@ MAP_NAME_YES_SLAM = 'MAP_YES_SLAM.png'  # map name pre-drawn
 
 
 def testcode():
-    # test code : manual serial input testing
-    cmd = input('>> ')
-    nxt.send(cmd)
-    print(narslam.x, narslam.y, narslam.theta)
+    while(1):
+        # test code : manual serial input testing
+        cmd = input('>> ')
+        nxt.send(cmd)
+        print(narslam.x, narslam.y, narslam.theta)
+
 
 def drive_through_rally(start, goal):
     print('starting from start')
@@ -111,7 +113,11 @@ if __name__ == "__main__":
     t_slam.start()
     print('SLAM now operating in background')
 
+    t_input = threading.Thread(target=testcode, args=())
+    t_input.start();
 
-    print('main loop starts: it checks the request from server and do cleaning or delivery')
-    while True:
-        testcode()
+    while(1):
+        if not narslam.viz.display(narslam.x/1000, narslam.y/1000, narslam.theta, narslam.mapbytes):
+            exit(0)
+
+        

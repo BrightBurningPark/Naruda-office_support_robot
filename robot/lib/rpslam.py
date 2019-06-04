@@ -1,25 +1,25 @@
 from breezyslam.algorithms import RMHC_SLAM
 from breezyslam.sensors import RPLidarA1 as LaserModel
 from rplidar import RPLidar as Lidar
-#from roboviz import MapVisualizer # this occurs error when there's no display connected on odroid
+from roboviz import MapVisualizer # this occurs error when there's no display connected on odroid
 
 from PIL import Image
 import io
 import os
 
 
-MAP_SIZE_PIXELS     = 100
-MAP_SIZE_METERS     = 3 #10m * 10m plain
-LIDAR_DEVICE        = '/dev/ttyUSB14'
+MAP_SIZE_PIXELS     = 1000
+MAP_SIZE_METERS     = 10 #10m * 10m plain
+LIDAR_DEVICE        = '/dev/ttyUSB0'
 
-MIN_SAMPLES         = 120 #default value 200, maximum 250, odroid maximum 140
+MIN_SAMPLES         = 150 #default value 200, maximum 250, odroid maximum 140
 
 
 class narlam:
     def __init__(self):
         self.lidar = Lidar(LIDAR_DEVICE)
         self.slam = RMHC_SLAM(LaserModel(), MAP_SIZE_PIXELS, MAP_SIZE_METERS)
-        # self.viz = MapVisualizer(MAP_SIZE_PIXELS, MAP_SIZE_METERS, 'SLAM MAP') # no visualizer needed
+        self.viz = MapVisualizer(MAP_SIZE_PIXELS, MAP_SIZE_METERS, 'SLAM MAP') # no visualizer needed
         self.trajectory = []
         self.mapbytes = bytearray(MAP_SIZE_PIXELS * MAP_SIZE_PIXELS)
         self.iterator = self.lidar.iter_scans()
@@ -27,13 +27,13 @@ class narlam:
         self.previous_distances = None
         self.previous_angles    = None
 
-        self.x      = None
-        self.y      = None
-        self.theta  = None
+        self.x      = 0.0
+        self.y      = 0.0
+        self.theta  = 0.0
 
     def slam_no_map(self, path_map_name):
         # doing slam with building maps from zero simultaneously
-        next(self.iterator)
+        #next(self.iterator) // testing here
 
         while True:
             items = [item for item in next(self.iterator)]
@@ -69,7 +69,7 @@ class narlam:
 
     def slam_yes_map(self, path_map_name):
         # doing localization only, with pre-built map image file.
-        next(self.iterator)
+        #next(self.iterator)
 
         with open(path_map_name, "rb") as map_img:
             f = map_img.read()
