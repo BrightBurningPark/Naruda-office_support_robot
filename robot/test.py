@@ -32,72 +32,50 @@ MAP_NAME_YES_SLAM = 'MAP_YES_SLAM.png'  # map name pre-drawn
 
 
 def testcode():
-    # test code : manual serial input testing
     print('current position / ', narslam.x, narslam.y)
-    #dest_x = narslam.x + 1000
-    #dest_y = narslam.y + 1000
     dest_x = int(input('x>> '))
     dest_y = int(input('y>> '))
 
     while math.hypot(dest_x - narslam.x, dest_y - narslam.y) > 10:
-        print('while entered')
+        print('DISTANCE: ', math.hypot(dest_x - narslam.x, dest_y - narslam.y), '| while entered', )
         dx = dest_x - narslam.x
         dy = dest_y - narslam.y
-        if abs(dx) < 50:
+        if abs(dx) < 10:
             dx = 0
-        if abs(dy) < 50:
+        if abs(dy) < 10:
             dy = 0
 
         rad = math.atan2(dx, dy)
         deg = math.degrees(rad)
-        print(deg, ' / ', narslam.theta)
-        if deg > narslam.theta + 10:
-            nxt.send(ntdriver.RIGHT)
-        elif deg < narslam.theta-10:
-            nxt.send(ntdriver.LEFT)
+    
+        if deg < 0:
+            deg = 360 + deg
+
+        print('degree: ', deg, ' | ', narslam.theta, ' | (', narslam.x, ', ', narslam.y, ')')
+
+        if abs(deg - narslam.theta) < 180:
+            if narslam.theta - 5 > deg:
+                nxt.send(ntdriver.LEFT)
+            elif narslam.theta + 5 < deg:
+                nxt.send(ntdriver.RIGHT)
+            else:
+                nxt.send(ntdriver.FORWARD)
         else:
-            nxt.send(ntdriver.FORWARD)
-        time.sleep(0.1)
+            if narslam.theta - 5 > deg:
+                nxt.send(ntdriver.RIGHT)
+            elif narslam.theta + 5 < deg:
+                nxt.send(ntdriver.LEFT)
+            else:
+                nxt.send(ntdriver.FORWARD)
+
+        time.sleep(0.2)
+
     nxt.send(ntdriver.STOP)
     print('arrived to destination')
 
     print("done")
     print(narslam.x, narslam.y, narslam.theta)
 
-
-def drive_through_rally(start, goal):
-    print('starting from start')
-    for rp in navi.path_rally:
-        dx = rp[0]-narslam.x
-        dy = rp[1]-narslam.y
-        while math.hypot(dx, dy) <= 10:
-            rad = math.atan(dy/dx)
-            deg = rad*(180/math.pi)
-            if deg > -(narslam.theta-10):
-                nxt.send(RIGHT)
-            elif deg < -(narslam.theta+10):
-                nxt.send(LEFT)
-            else:
-                nxt.send(FORWARD)
-        nxt.send(STOP)
-    print('arrived to destination')
-
-def handle_request(path_map_name):
-    #TODO: code for handling request. request stored in server instance
-    # request has 3 args: 
-    #       1. destination 1 (x1, y1)
-    #       2. destination 2 (x2m y2)
-    #       3. request Authentification pattern(4-length pattern consists of A, B, C -> used to lock the cargo)
-    
-    # start position -> destination 1
-    navi.search(path_map_name, (narslam.x, narslam.y), ser.req[0])
-    navi.extract_rally()
-    drive_through_rally()
-            
-    # destination 1 -> destination 2
-    navi.search(path_map_name, (narslam.x, narslam.y), ser.req[1])
-    navi.extract_rally()
-    drive_through_rally()
 
 def connect_all():
     # connecting functions comes here. there should be exception handling, but i have no time.
@@ -127,18 +105,15 @@ if __name__ == "__main__":
     else:
         print('error: invalid selection')
         sys.exit(-1)
-    t_slam.start()
-    print('SLAM now operating in background')
 
+    t_slam.start()
+    nxt.send('s80')
     while(1):
-        if not narslam.viz.display(narslam.x/1000, narslam.y/1000, narslam.theta, narslam.mapbytes):
-            exit(0)
         cmd = input("please give me order\n(\"goto\": run testcode|1,2,3,4,5: move)\n>> ")
         if cmd == 'goto':
             testcode()
             print('testcode done')
         else:
-            nxt.send(int(cmd))
-        print('loop success!')
+            nxt.send(cmd)
 
         
