@@ -10,8 +10,11 @@ export default class Main extends Component {
         const { session, socket } = this.props;
 
         return (
+
+            
+
             <div>
-                <Header session={session} socket={socket} />
+                <Header session={session} socket={socket} />    
                 <Body socket={socket}/>
             </div>
         );
