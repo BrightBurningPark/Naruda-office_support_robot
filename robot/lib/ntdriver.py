@@ -4,6 +4,7 @@ import array
 import sys
 import os
 import socketio
+import time
 
 class server:
     SERVER_ADDR = 'http://13.209.49.139:3000'
@@ -14,6 +15,16 @@ class server:
 
     def connect(self):
         server.sio.connect(server.SERVER_ADDR)
+
+    def report_position(self, slam_core):
+        # report current position to the server periodically
+        # period is... about 500ms.
+        server.sio.emit('position', [slam_core.x, slam_core.y])
+        time.sleep(0.5)
+
+    def report_progress(self):
+        #TODO: need some discussion
+        pass
 
     @sio.on('connect')
     def on_connect():
@@ -63,11 +74,11 @@ ACK_STRING = 0x02
 
 
 #command protocol for robot harware control  automation
-FORWARD     = 1
-BACKWARD    = 2
-LEFT        = 3
-RIGHT       = 4
-STOP        = 5
+STOP        = '0'
+FORWARD     = '1'
+BACKWARD    = '2'
+LEFT        = '3'
+RIGHT       = '4'
 
 class lego_nxt:
     def __init__(self):
