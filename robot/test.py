@@ -17,9 +17,9 @@ import threading
 import sys
 sys.path.append('./lib')
 # modules under lib directory
-import ntdriver     # network driver
-import pathengine   # shortest path finding engine
-import rpslam       # BreezySLAM(tinySLAM Implementation) with RPLidar A1
+import ntdriver         # network driver
+import pathengine       # shortest path finding engine
+import rpslam           # BreezySLAM(tinySLAM Implementation) with RPLidar A1
 
 # General variables like Path, Var, Name, etc...
 PATH_ROBOT = "/home/odroid/capdi/robot" # robot SW top path
@@ -32,48 +32,48 @@ MAP_NAME_YES_SLAM = 'MAP_YES_SLAM.png'  # map name pre-drawn
 
 
 def testcode():
-    # test code : manual serial input testing
-    cmd = input('>> ')
-    nxt.send(cmd)
-    print(narslam.x, narslam.y, narslam.theta)
+    print('current position / ', narslam.x, narslam.y)
+    dest_x = int(input('x>> '))
+    dest_y = int(input('y>> '))
 
-def drive_through_rally(start, goal):
-    print('starting from start')
-    for rp in navi.path_rally:
-        dx = rp[0]-narslam.x
-        dy = rp[1]-narslam.y
-        while math.hypot(dx, dy) <= 10:
-            rad = math.atan(dy/dx)
-            deg = rad*(180/math.pi)
-            if deg > narslam.theta:
-                nxt.send(RIGHT)
-            elif deg < narslam.theta:
-                nxt.send(LEFT)
-            #go forward, and turn left or right till the angle of head is similar to destination
-            nxt.send(FORWARD)
-        nxt.send(STOP)
+    while math.hypot(dest_x - narslam.x, dest_y - narslam.y) > 10:
+        print('DISTANCE: ', math.hypot(dest_x - narslam.x, dest_y - narslam.y), '| while entered', )
+        dx = dest_x - narslam.x
+        dy = dest_y - narslam.y
+        if abs(dx) < 10:
+            dx = 0
+        if abs(dy) < 10:
+            dy = 0
+
+        rad = math.atan2(dx, dy)
+        deg = math.degrees(rad)
+    
+        if deg < 0:
+            deg = 360 + deg
+
+        print('degree: ', deg, ' | ', narslam.theta, ' | (', narslam.x, ', ', narslam.y, ')')
+
+        if abs(deg - narslam.theta) < 180:
+            if narslam.theta - 5 > deg:
+                nxt.send(ntdriver.LEFT)
+            elif narslam.theta + 5 < deg:
+                nxt.send(ntdriver.RIGHT)
+            else:
+                nxt.send(ntdriver.FORWARD)
+        else:
+            if narslam.theta - 5 > deg:
+                nxt.send(ntdriver.RIGHT)
+            elif narslam.theta + 5 < deg:
+                nxt.send(ntdriver.LEFT)
+            else:
+                nxt.send(ntdriver.FORWARD)
+
+        time.sleep(0.2)
+
+    nxt.send(ntdriver.STOP)
     print('arrived to destination')
 
-def handle_request(path_map_name):
-    #TODO: code for handling request. request stored in server instance
-    # request has 3 args: 
-    #       1. destination 1 (x1, y1)
-    #       2. destination 2 (x2m y2)
-    #       3. request Authentification pattern(4-length pattern consists of A, B, C -> used to lock the cargo)
-    
-    # start position -> destination 1
-    navi.search(path_map_name, (narslam.x, narslam.y), ser.req[0])
-    navi.extract_rally()
-    drive_through_rally()
-            
-    # destination 1 -> destination 2
-    navi.search(path_map_name, (narslam.x, narslam.y), ser.req[1])
-    navi.extract_rally()
-    drive_through_rally()
-
-def sweep_floor():
-    #TODO: code for robovacuum-ing
-    print("sweep sweep sweep")
+    print("done")
     print(narslam.x, narslam.y, narslam.theta)
 
 
@@ -85,16 +85,13 @@ def connect_all():
 if __name__ == "__main__":
     print ('firmware started')
     
-
     nxt         = ntdriver.lego_nxt()
     navi        = pathengine.navigation()
     narslam     = rpslam.narlam()
     print('instances generated successfully from the library modules')
 
-
     connect_all()
     print('all connection established')
-
 
     flag_slam_yn = input('select SLAM mode (y: do slam with pre-set map / n: do real SLAM) >> ')
     if flag_slam_yn == 'y':
@@ -108,10 +105,15 @@ if __name__ == "__main__":
     else:
         print('error: invalid selection')
         sys.exit(-1)
+
     t_slam.start()
-    print('SLAM now operating in background')
+    nxt.send('s80')
+    while(1):
+        cmd = input("please give me order\n(\"goto\": run testcode|1,2,3,4,5: move)\n>> ")
+        if cmd == 'goto':
+            testcode()
+            print('testcode done')
+        else:
+            nxt.send(cmd)
 
-
-    print('main loop starts: it checks the request from server and do cleaning or delivery')
-    while True:
-        testcode()
+        

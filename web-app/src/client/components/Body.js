@@ -27,7 +27,6 @@ export default class Body extends Component {
     L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png').addTo(this.map);
   }
 
-
   render() {
       return(
         <Container textAlign='center'>
