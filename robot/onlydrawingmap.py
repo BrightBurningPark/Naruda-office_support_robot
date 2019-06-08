@@ -50,8 +50,6 @@ def testcode():
     
         if deg < 0:
             deg = 360 + deg
-        #add 180 and %360 here
-        #deg = (deg + 180) % 360
 
         print('degree: ', deg, ' | ', narslam.theta, ' | (', narslam.x, ', ', narslam.y, ')')
 
@@ -79,21 +77,11 @@ def testcode():
     print(narslam.x, narslam.y, narslam.theta)
 
 
-def connect_all():
-    # connecting functions comes here. there should be exception handling, but i have no time.
-    nxt.connect()
-
-
 if __name__ == "__main__":
     print ('firmware started')
-    
-    nxt         = ntdriver.lego_nxt()
     navi        = pathengine.navigation()
     narslam     = rpslam.narlam()
     print('instances generated successfully from the library modules')
-
-    connect_all()
-    print('all connection established')
 
     flag_slam_yn = input('select SLAM mode (y: do slam with pre-set map / n: do real SLAM) >> ')
     if flag_slam_yn == 'y':
@@ -109,27 +97,11 @@ if __name__ == "__main__":
         sys.exit(-1)
 
     t_slam.start()
-    nxt.send('s60')
 
-    i = 0
-    while i < 10:
+    while True:
         if not narslam.viz.display(narslam.x/1000, narslam.y/1000, narslam.theta, narslam.mapbytes):
             exit(0)
-        time.sleep(0.5)
-        i = i+1
-
-    while(1):
-        cmd = input("please give me order\n(\"goto\": run testcode|1,2,3,4,5: move)\n>> ")
-        if cmd == 'goto':
-            testcode()
-            print('testcode done')
-        elif cmd == 'exit':
-            print('exit')
-            narslam.flag = 1
-            t_slam.join()
-            sys.exit(0)
-        else:
-            nxt.send(cmd)
-            print(narslam.x, '|', narslam.y, '|', narslam.theta)
+        print('(', narslam.x/1000, '|', narslam.y/1000, '|', narslam.theta, ')')
+        time.sleep(0.1)
 
         
