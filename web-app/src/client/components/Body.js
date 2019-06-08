@@ -11,9 +11,6 @@ const Wrapper = styled.div`
     height: ${props => props.height};
 `;
 
-
-
-
 @observer
 export default class Body extends Component {
 
@@ -23,10 +20,8 @@ export default class Body extends Component {
       zoom : 6,
       zommControl : false
     });
-
     L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png').addTo(this.map);
   }
-
 
   render() {
       return(

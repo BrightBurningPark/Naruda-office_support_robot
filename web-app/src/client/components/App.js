@@ -10,7 +10,7 @@ export default class App extends Component {
 
     if (!session.logedIn) {
       return (
-        <Home login={socket.login} />
+        <Home session={session} socket={socket} auth={socket.auth}/>
       )
     } else {
       return (
