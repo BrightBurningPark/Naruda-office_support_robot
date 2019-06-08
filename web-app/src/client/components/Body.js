@@ -5,13 +5,14 @@ import { observer } from 'mobx-react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import styled from 'styled-components'
+import { Container } from 'semantic-ui-react'
+import 'semantic-ui-less/semantic.less'
+import CustomMap from './map/renderedmap/leaflet'
 
 const Wrapper = styled.div`
     width: ${props => props.width};
     height: ${props => props.height};
 `;
-
-
 
 
 @observer
@@ -23,15 +24,15 @@ export default class Body extends Component {
       zoom : 6,
       zommControl : false
     });
-
     L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png').addTo(this.map);
   }
 
 
   render() {
       return(
-        <Wrapper width="1000px" height="720px" id="map"/>
-      
+        <Container textAlign='center'>
+          <Wrapper width="1000px" height="720px" id="map"/>
+        </Container>
       );
   }
 }
