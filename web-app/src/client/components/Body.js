@@ -6,11 +6,15 @@ import { Form } from 'semantic-ui-react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import styled from 'styled-components'
+import { Container } from 'semantic-ui-react'
+import 'semantic-ui-less/semantic.less'
+import CustomMap from './map/renderedmap/leaflet'
 
 const Wrapper = styled.div`
     width: ${props => props.width};
     height: ${props => props.height};
 `;
+
 
 @observer
 export default class Body extends Component {
@@ -64,7 +68,9 @@ export default class Body extends Component {
     const { xcoord, ycoord } = this.state
     return (
       <div>
-        <Wrapper width="1000px" height="720px" id="map" />
+      <Container textAlign='center'>
+        <Wrapper width="1000px" height="720px" id="map"/>
+      </Container>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>
             <Form.Input label='X Coordinate' name='xcoord' placeholder='X Coordinate' value={this.state.xcoord} onChange={this.handleChange}></Form.Input>
