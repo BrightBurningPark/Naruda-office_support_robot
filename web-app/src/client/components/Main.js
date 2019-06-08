@@ -12,7 +12,7 @@ export default class Main extends Component {
         return (
             <div>
                 <Header session={session} socket={socket} />
-                <Body socket={socket} />
+                <Body socket={socket}  addTask={(xcoord, ycoord) => socket.addTask(xcoord, ycoord)}/>
             </div>
         );
     }

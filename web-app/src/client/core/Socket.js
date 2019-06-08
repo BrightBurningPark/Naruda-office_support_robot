@@ -66,6 +66,17 @@ class Socket {
     this.session.logedIn = false;
     this.session.email = null;
   }
+
+  addTask = (xcoord, ycoord) => {
+    this.socket.emit('new_task', { xcoord: xcoord, ycoord: ycoord })
+    console.log('emitted new_task socket event')
+  }
+
+  /* todo
+   * socket.emit('new_task')
+   * socket.on('narumi_loc')
+   * socket.on('')
+   */
 }
 
 export default Socket;

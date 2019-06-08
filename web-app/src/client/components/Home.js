@@ -23,10 +23,7 @@ export default class Home extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.auth(this.state.email, this.state.password).then((res) => {
-            if (res)
-                ;
-        });
+        this.props.auth(this.state.email, this.state.password)
     }
 
     render() {
