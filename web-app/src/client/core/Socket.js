@@ -3,7 +3,7 @@ import axios from 'axios';
 
 class Socket {
   constructor({ session }) {
-    this.io = null;
+    this.socket = null;
     this.session = session;
   }
 
@@ -56,13 +56,13 @@ class Socket {
   }
 
   login = (email) => {
-    //this.io = socket connection;
+    this.socket = io.connect('http://localhost:3000');
     this.session.logedIn = true;
     this.session.email = email;
   }
 
   signout = () => {
-    //this.io = null;
+    this.socket.close();
     this.session.logedIn = false;
     this.session.email = null;
   }

@@ -6,7 +6,8 @@ const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const con = require('./config/database.js')
-const PORT = process.env.PORT || 3000
+const PORT_WEB = process.env.PORT_WEB || 3000
+const PORT_NARUMI = process.env.NARUMI || 3010
 
 process.on('uncaughtException', function (err) {
   console.log(err);
@@ -39,13 +40,22 @@ app.post('/signin', function (req, res) {
   });
 })
 
-const server = app.listen(PORT, (err) => {
+const server_web = app.listen(PORT_WEB, (err) => {
   if (err) {
     console.log(err)
     return
   }
-  console.log('server listening on port: %s', PORT)
+  console.log('server listening on PORT_WEB: %s', PORT_WEB)
 })
+const io_web = new socketIO(server_web)
 
-const io = new socketIO(server)
-const socketEvents = require('./socketEvents')(io)
+const server_narumi = app.listen(PORT_NARUMI, (err) => {
+  if (err) {
+    console.log(err)
+    return
+  }
+  console.log('server listening on PORT_NARUMI: %s', PORT_NARUMI)
+})
+const io_narumi = new socketIO(server_narumi)
+
+const task_manager = require('./TaskManager')(io_web, io_narumi)
