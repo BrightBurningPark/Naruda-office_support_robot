@@ -7,37 +7,40 @@ import 'semantic-ui-less/semantic.less'
 export default class SignUpForm extends Component {
     constructor(props) {
         super(props);
-        this.state = { email: '', password: '', xcoord: '', ycoord: '' }
+        this.state = {
+            email: '', password: '',
+            emailError: '', nameError: '', passwordError: ''
+        }
     }
 
     handleChange = (e, { name, value }) => {
         this.setState({ [name]: value })
-        
+        /* todo: input 값 valid 한지 client에서 먼저 확인하는 함수
+         * State의 Error 값에 따라 맞는 modal rendering
+         */   
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        // todo: input 값 valid 한지 client에서 먼저 확인하는 함수
-        this.props.signUp(this.state.email, this.state.password, this.state.xcoord, this.state.ycoord);
+        this.props.signUp(this.state.email, this.state.password).then((res) => {
+            if (res)
+                ;
+        });
     }
 
     render() {
         const { socket } = this.props
-        const { email, password, xcoord, ycoord } = this.state
+        const { email, password } = this.state
         return (
             <div>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                     <Grid.Column style={{ maxWidth: 450 }}>
                         <Header as='h1' color='teal' textAlign='center'>Naruda</Header>
                         <Header as='h2' textAlign='left'>Create a New Account</Header>
-                        <Header as='h3' textAlign='left'>It’s free and always will be.</Header>
                         <Form size='large' onSubmit={this.handleSubmit}>
                             <Segment stacked>
                                 <Form.Input fluid icon='user' iconPosition='left' placeholder='Email Address' type='email' name='email' value={email} onChange={this.handleChange} />
                                 <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' name='password' value={password} onChange={this.handleChange} />
-                                <Form.Input fluid icon='arrows alternate horizontal' iconPosition='left' type='integer' placeholder='X Coordinate' name='xcoord' value={xcoord} onChange={this.handleChange} />
-                                <Form.Input fluid icon='arrows alternate vertical' iconPosition='left' type='integer' placeholder='Y Coordinate' name='ycoord' value={ycoord} onChange={this.handleChange} />
-                                {/* todo: map에서 x, y 좌표 선택 */}
                                 <Form.Button color='teal' fluid size='large' onClick={this.handleSubmit} >Sign Up</Form.Button>
                             </Segment>
                         </Form>
@@ -46,7 +49,7 @@ export default class SignUpForm extends Component {
                     </Grid.Column>
                 </Grid>
                 <strong>onChange:</strong>
-                <pre>{JSON.stringify({ email, password, xcoord, ycoord }, null, 4)}</pre>
+                <pre>{JSON.stringify({ email, password }, null, 2)}</pre>
             </div>
         )
     }

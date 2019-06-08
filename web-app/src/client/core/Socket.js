@@ -8,25 +8,34 @@ class Socket {
   }
 
   signUp = (email, password, xcoord, ycoord) => {
+    var dbCheck = false
     /*
-    todo: 회원가입 정보 valid한지 확인하는 함수
-    */
-    this.session.newcomer = false;
+     * axios: DB에 email 이미 존재하는지 확인, res
+     */
+    if (dbCheck) {
+      // db에 새로운 account 추가
+      this.session.newcomer = false;
+      return true
+    }
+    return false
   }
 
+  /* Home 컴포넌트에서 조건부 rendering
+   * this.session.newcomer => signUpForm render
+   * !this.session.newcomer => Home render
+   */
   setNewcomer = () => {
     this.session.newcomer = true;
   }
-
   resetNewcomer = () => {
     this.session.newcomer = false;
   }
 
   /* function: Socket.auth(email, password)
-  서버DB에 확인
-  맞으면 login
-  틀리면 return false;
-  */
+   * axios: 서버DB에 email과 password 일치 확인
+   * 맞으면 login
+   * 틀리면 return false;
+   */
   auth = (email, password) => {
     // axios.post('http://localhost:3000/signin', {
     //   email: email,
@@ -34,7 +43,7 @@ class Socket {
     // }).then((res) => {
     //   if (res == 'true') {
     //     console.log('true')
-          this.login(email)
+    this.login(email)
     //     return true
     //   }
     //   else if (res == 'false') {
@@ -45,7 +54,6 @@ class Socket {
     //   console.log(error)
     // })
   }
-
 
   login = (email) => {
     //this.io = socket connection;

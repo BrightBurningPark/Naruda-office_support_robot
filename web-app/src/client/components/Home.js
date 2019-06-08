@@ -8,15 +8,25 @@ import SignUpForm from './SignUpForm'
 export default class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = { email: '', password: '' }
+        this.state = {
+            email: '', password: '',
+            emailError: '', passwordError: '',
+        }
     }
 
-    handleChange = (e, { name, value }) => this.setState({ [name]: value })
+    handleChange = (e, { name, value }) => {
+        this.setState({ [name]: value })
+        /* todo: input 값 valid 한지 client에서 먼저 확인하는 함수
+         * State의 Error 값에 따라 맞는 modal rendering
+         */
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        // todo: input 값 valid 한지 client 선에서 먼저 확인하는 함수
-        this.props.auth(this.state.email, this.state.password);
+        this.props.auth(this.state.email, this.state.password).then((res) => {
+            if (res)
+                ;
+        });
     }
 
     render() {
@@ -28,6 +38,7 @@ export default class Home extends Component {
                     <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                         <Grid.Column style={{ maxWidth: 450 }}>
                             <Header as='h1' color='teal' textAlign='center'>Naruda</Header>
+                            <Header as='h2'>Take part in New Move of Autonomous Office</Header>
                             <Form size='large'>
                                 <Segment stacked>
                                     <Form.Input fluid icon='user' iconPosition='left' placeholder='Email Address' name='email' value={email} onChange={this.handleChange} />
