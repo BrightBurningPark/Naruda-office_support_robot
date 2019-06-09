@@ -7,7 +7,7 @@ import socketio
 import time
 
 class server:
-    SERVER_ADDR = 'http://13.209.49.139:3000'
+    SERVER_ADDR = 'http://13.209.49.139:3010'
     sio = socketio.Client()
 
     def __init__(self):
@@ -16,15 +16,17 @@ class server:
     def connect(self):
         server.sio.connect(server.SERVER_ADDR)
 
-    def report_position(self, slam_core):
+    def report_position(self, slam):
         # report current position to the server periodically
-        # period is... about 500ms.
-        server.sio.emit('position', [slam_core.x, slam_core.y])
-        time.sleep(0.5)
+        # period is... about 1000ms.
+        server.sio.emit('position', [slam.x, slam.y])
+        time.sleep(1)
 
     def report_progress(self):
-        #TODO: need some discussion
-        pass
+        # emits 'ready to move' event to the server.
+        # this means the robot has finished current job from the server.
+        server.sio.emit('ready_to_move', )
+        
 
     @sio.on('connect')
     def on_connect():

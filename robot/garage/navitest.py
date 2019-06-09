@@ -21,6 +21,9 @@ import ntdriver         # network driver
 import pathengine       # shortest path finding engine
 import rpslam           # BreezySLAM(tinySLAM Implementation) with RPLidar A1
 
+from utils import plot_path
+
+
 # General variables like Path, Var, Name, etc...
 PATH_ROBOT = "/home/odroid/capdi/robot" # robot SW top path
 PATH_MAP = PATH_ROBOT + "/maps"          # map directory
@@ -77,20 +80,12 @@ def testcode():
     print(narslam.x, narslam.y, narslam.theta)
 
 
-def connect_all():
-    # connecting functions comes here. there should be exception handling, but i have no time.
-    nxt.connect()
-
 if __name__ == "__main__":
     print ('firmware started')
-    nxt         = ntdriver.lego_nxt()
-    navi        = pathengine.navigation()
-    narslam     = rpslam.narlam()
+    #navi        = pathengine.navigation()
+    #narslam     = rpslam.narlam()
     print('instances generated successfully from the library modules')
-
-    connect_all()
-    print('all connection established')
-
+    '''
     flag_slam_yn = input('select SLAM mode (y: do slam with pre-set map / n: do real SLAM) >> ')
     if flag_slam_yn == 'y':
         #TODO: do yes map slam
@@ -105,15 +100,26 @@ if __name__ == "__main__":
         sys.exit(-1)
 
     t_slam.start()
-
+    '''
+    
     while True:
-        cmd = input('test >> ')
-        if cmd == 'exit':
+        start_x = float(input('start x >> '))
+        start_y = float(input('start y >> '))
+        end_x = float(input('end x >> '))
+        end_y = float(input('end y >> '))
+        if start_x == 0 or end_x == 0:
             narslam.flag = 1
             t_slam.join()
             print('exit')
             sys.exit(-1)
-        nxt.send(cmd)
-        print('(', narslam.x/1000, '|', narslam.y/1000, '|', narslam.theta, ')')
+
+        navi = pathengine.navigation(PATH_MAP + '/' + MAP_NAME_NO_SLAM)
+        start = (start_x, start_y)
+        end = (end_x, end_y)
+        navi.search(start, end)
+        navi.extract_rally()
+        # plot_path(navi.path_px)
+        print(navi.path_rally)
+        #print('(', narslam.x/1000, '|', narslam.y/1000, '|', narslam.theta, ')')
 
         

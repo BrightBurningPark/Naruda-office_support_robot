@@ -7,6 +7,12 @@ it can also build the map from zero.
 
 I Love my school and the Capstone Program SO MUCH. it's true story ^^.
 '''
+
+'''
+ the final version of the narumi firmware.
+ integrated version of Mapping, Localization, Path Planning, Autonomous Driving, Network Communication.
+'''
+
 # python basic or pip-installed library import
 import sys
 import math
@@ -31,10 +37,12 @@ MAP_NAME_YES_SLAM = 'MAP_YES_SLAM.png'  # map name pre-drawn
 # flag_slam_yn = None # this variable is under the __main__ code
 
 
-def testcode():
+def autonomous_driving(dest):
+    # drive robot to the selected position from current position.
+    # this would be used for driving robot from rally to rally
     print('current position / ', narslam.x, narslam.y)
-    dest_x = int(input('x>> '))
-    dest_y = int(input('y>> '))
+    dest_x = dest[0] #int(input('x>> '))
+    dest_y = dest[1] #int(input('y>> '))
 
     while math.hypot(dest_x - narslam.x, dest_y - narslam.y) > 50:
         print('DISTANCE: ', math.hypot(dest_x - narslam.x, dest_y - narslam.y), '| while entered', )
@@ -77,13 +85,16 @@ def testcode():
     print(narslam.x, narslam.y, narslam.theta)
 
 
-if __name__ == "__main__":
-    print ('firmware started')
-    navi        = pathengine.navigation()
-    narslam     = rpslam.narlam()
-    print('instances generated successfully from the library modules')
+def server_setup():
+    #TODO: server setup code. function call from ntdriver
+    pass
 
-    flag_slam_yn = input('select SLAM mode (y: do slam with pre-set map / n: do real SLAM) >> ')
+
+
+if __name__ == "__main__":
+    print ('firmware start')
+    narslam     = rpslam.narlam()
+    flag_slam_yn = input('select SLAM mode (y: Do SLAM with pre-drawn map / n: Do full SLAM) >> ')
     if flag_slam_yn == 'y':
         #TODO: do yes map slam
         path_map_name = PATH_MAP + '/' + MAP_NAME_YES_SLAM
@@ -98,10 +109,17 @@ if __name__ == "__main__":
 
     t_slam.start()
 
+    #setup LEGO NXT
+    nxt = ntdriver.lego_nxt()
+    nxt.connect()
+
+    #server communication setup
+    server = server_setup() #this function is defined in this file. it calls functions in the ntdriver file.
+
+    print('Basic Robot Firmware Setup Finished')
+
+
     while True:
-        if not narslam.viz.display(narslam.x/1000, narslam.y/1000, narslam.theta, narslam.mapbytes):
-            exit(0)
-        print('(', narslam.x/1000, '|', narslam.y/1000, '|', narslam.theta, ')')
-        time.sleep(0.1)
+        #TODO: check the server instance, to see there's request or not.
 
         

@@ -11,10 +11,11 @@ import os
 
 
 MAP_SIZE_PIXELS         = 1000
-MAP_SIZE_METERS         = 3
+MAP_SIZE_METERS         = 4
+PPM = MAP_SIZE_PIXELS / (MAP_SIZE_METERS * 1000) #pixel per milimeter
 LIDAR_DEVICE            = '/dev/ttyUSB0'
 
-MIN_SAMPLES = 100
+MIN_SAMPLES = 120
 
 
 class narlam:
@@ -22,7 +23,7 @@ class narlam:
         self.flag = 0
         self.lidar = Lidar(LIDAR_DEVICE)
         self.slam = RMHC_SLAM(LaserModel(), MAP_SIZE_PIXELS, MAP_SIZE_METERS)
-#self.viz = MapVisualizer(MAP_SIZE_PIXELS, MAP_SIZE_METERS, 'SLAM')
+        #self.viz = MapVisualizer(MAP_SIZE_PIXELS, MAP_SIZE_METERS, 'SLAM')
         self.trajectory = []
         self.mapbytes = bytearray(MAP_SIZE_PIXELS * MAP_SIZE_PIXELS)
         self.iterator = self.lidar.iter_scans()
@@ -70,10 +71,10 @@ class narlam:
 
 
     def slam_yes_map(self, path_map_name):
-        with open(path_map_name, "rb") as map_img:
-            f = map_img.read()
+        with open(path_map_name, "rb") as image:
+            f = image.read()
             b = bytearray(f)
-            self.slam.setmap(b)
+            self.slam.setmap(b[0])
 
         next(self.iterator)
 

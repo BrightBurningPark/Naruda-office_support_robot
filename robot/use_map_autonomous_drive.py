@@ -31,10 +31,10 @@ MAP_NAME_YES_SLAM = 'MAP_YES_SLAM.png'  # map name pre-drawn
 # flag_slam_yn = None # this variable is under the __main__ code
 
 
-def testcode():
+def auto_drive(dest):
     print('current position / ', narslam.x, narslam.y)
-    dest_x = int(input('x>> '))
-    dest_y = int(input('y>> '))
+    dest_x = dest[0]#int(input('x>> '))
+    dest_y = dest[1]#int(input('y>> '))
 
     while math.hypot(dest_x - narslam.x, dest_y - narslam.y) > 50:
         print('DISTANCE: ', math.hypot(dest_x - narslam.x, dest_y - narslam.y), '| while entered', )
@@ -74,52 +74,47 @@ def testcode():
 
     nxt.send(ntdriver.STOP)
     print('arrived to destination')
-
-    print("done")
-    print(narslam.x, narslam.y, narslam.theta)
+    print('(', narslam.x, narslam.y, narslam.theta, ')')
 
 
-def connect_all():
-    # connecting functions comes here. there should be exception handling, but i have no time.
-    nxt.connect()
+def testcode():
+    print('input destination cordination in milimeter here')
+    dest_x_milimeter = input('X in milimeter>> ')
+    dest_y_miiimeter = input('Y in milimeter>> ')
+    dest_milimeter = (dest_x_milimeter, dest_y_milimeter)
+    
+    start_milimeter = (narslam.x, narslam.y)
+    
+    navi.pathengine.navigation(PATH_MAP + '/' + MAP_NAME_YES_SLAM)
+    navi.search(start_milimeter, dest_milimeter)
+    navi.extract_rally()
+
+    for point in navi.path_rally:
+        auto_drive(point)
+        print('drive_done')
+    
+    print(navi.path_rally)
+
+    
 
 
 if __name__ == "__main__":
     print ('firmware started')
-    
-    nxt         = ntdriver.lego_nxt()
-    navi        = pathengine.navigation()
     narslam     = rpslam.narlam()
-    print('instances generated successfully from the library modules')
-
-    connect_all()
-    print('all connection established')
-
-    flag_slam_yn = input('select SLAM mode (y: do slam with pre-set map / n: do real SLAM) >> ')
-    if flag_slam_yn == 'y':
-        #TODO: do yes map slam
-        path_map_name = PATH_MAP + '/' + MAP_NAME_YES_SLAM
-        t_slam = threading.Thread(target=narslam.slam_yes_map, args=(path_map_name,))
-    elif flag_slam_yn == 'n':
-        #TODO: do no map slam
-        path_map_name = PATH_MAP + '/' + MAP_NAME_NO_SLAM
-        t_slam = threading.Thread(target=narslam.slam_no_map, args=(path_map_name,))
-    else:
-        print('error: invalid selection')
-        sys.exit(-1)
-
+    #TODO: do yes map slam
+    path_map_name = PATH_MAP + '/' + MAP_NAME_YES_SLAM
+    t_slam = threading.Thread(target=narslam.slam_yes_map, args=(path_map_name,))
     t_slam.start()
+    print('SLAM activated')
+    
+    nxt = ntdriver.lego_nxt()
+    nxt.connect()
     nxt.send('s60')
+    print('nxt connected')
 
-    i = 0
-    while i < 10:
-        if not narslam.viz.display(narslam.x/1000, narslam.y/1000, narslam.theta, narslam.mapbytes):
-            exit(0)
-        time.sleep(0.5)
-        i = i+1
 
     while(1):
-        cmd = input("please give me order\n(\"goto\": run testcode|1,2,3,4,5: move)\n>> ")
+        cmd = input("please give me order\n(\"goto\": run testcode | 0,1,2,3,4: move)\n>> ")
         if cmd == 'goto':
             testcode()
             print('testcode done')
@@ -130,6 +125,7 @@ if __name__ == "__main__":
             sys.exit(0)
         else:
             nxt.send(cmd)
-            print(narslam.x, '|', narslam.y, '|', narslam.theta)
+        
+        print('(', narslam.x, '|', narslam.y, '|', narslam.theta, ')')
 
         
