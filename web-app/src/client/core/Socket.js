@@ -5,6 +5,8 @@ class Socket {
   constructor({ session }) {
     this.socket = null;
     this.session = session;
+    this.myXcoord = 1;
+    this.myYcoord = 1;
   }
 
   signUp = (email, password, xcoord, ycoord) => {
@@ -62,21 +64,35 @@ class Socket {
   }
 
   signout = () => {
+    this.socket.off('update_pos')
+    this.socket.off('update_task')
     this.socket.close();
     this.session.logedIn = false;
     this.session.email = null;
   }
 
   addTask = (xcoord, ycoord) => {
-    this.socket.emit('new_task', { xcoord: xcoord, ycoord: ycoord })
-    console.log('emitted new_task socket event')
+    this.socket.emit('new_task', { fromXcoord: this.myXcoord, fromYcoord: this.myYcoord, toXcoord: xcoord, toYcoord: ycoord })
+    console.log('emit new_task')
   }
 
-  /* todo
-   * socket.emit('new_task')
-   * socket.on('narumi_loc')
-   * socket.on('')
-   */
+  updatePos = () => {
+    return new Promise((resolve, reject) => {
+      this.socket.on('update_pos', (res) => {
+        console.log(res);
+        resolve(res)
+      })
+    })
+  }
+
+  updateTask = () => {
+    return new Promise((resolve, reject) => {
+      this.socket.on('update_task', (res) => {
+        console.log(res);
+        resolve(res)
+      })
+    })
+  }
 }
 
 export default Socket;

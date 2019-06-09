@@ -8,7 +8,6 @@ import 'leaflet/dist/leaflet.css'
 import styled from 'styled-components'
 import { Container } from 'semantic-ui-react'
 import 'semantic-ui-less/semantic.less'
-import CustomMap from './map/renderedmap/leaflet'
 
 const Wrapper = styled.div`
     width: ${props => props.width};
@@ -21,7 +20,6 @@ export default class Body extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      intervalId: '',
       ycoord: '', ycoord: '',
     }
   }
@@ -34,22 +32,10 @@ export default class Body extends Component {
     });
     L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png').addTo(this.map);
 
-    /*
-    var intervalId = setInterval(this.timer, 1000);
-    // store intervalId in the state so it can be accessed later:
-    this.setState({ intervalId: intervalId });
-    */
+    // todo: socket.on
   }
 
   componentWillUnmount() {
-    /*
-    // use intervalId from the state to clear the interval
-    clearInterval(this.state.intervalId);
-    */
-  }
-
-  // function called periodically(used for getNarumiLoc)
-  timer() {
   }
 
   handleChange = (e, { name, value }) => {
@@ -68,9 +54,9 @@ export default class Body extends Component {
     const { xcoord, ycoord } = this.state
     return (
       <div>
-      <Container textAlign='center'>
-        <Wrapper width="1000px" height="720px" id="map"/>
-      </Container>
+        <Container textAlign='center'>
+          <Wrapper width="1000px" height="720px" id="map" />
+        </Container>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>
             <Form.Input label='X Coordinate' name='xcoord' placeholder='X Coordinate' value={this.state.xcoord} onChange={this.handleChange}></Form.Input>
