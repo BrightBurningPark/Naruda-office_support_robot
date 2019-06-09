@@ -1,7 +1,7 @@
 import Queue from './Queue'
 
 var taskQueue = new Queue()
-var position = { xcoord: null, ycoord: null }
+var position = { xcoord: 1, ycoord: 1 }
 
 /*
  * taskQueue의 object는 {
@@ -37,7 +37,7 @@ exports = module.exports = function (io_web, io_narumi) {
         setInterval(() => {
             socket.emit('update_task', taskQueue)
             socket.emit('update_pos', position)
-        }, 6000);
+        }, 1000);
     })
 
     /*

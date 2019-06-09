@@ -19,7 +19,8 @@ export default class Body extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ycoord: '', ycoord: '',
+      xcoord: '', ycoord: '',
+      narumiXcoord: 0, narumiYcoord: 0
     }
   }
 
@@ -32,6 +33,10 @@ export default class Body extends Component {
     L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png').addTo(this.map);
 
     this.props.updatePos()
+      .then(res => {
+        this.setState(state => ({ ...state, narumiXcoord: res.xcoord, narumiYcoord: res.ycoord }))
+      })
+      
     this.props.updateTask()
   }
 
@@ -48,7 +53,7 @@ export default class Body extends Component {
   }
 
   render() {
-    const { xcoord, ycoord } = this.state
+    const { xcoord, ycoord, narumiXcoord, narumiYcoord } = this.state
     return (
       <div>
         <Container textAlign='center'>
@@ -63,7 +68,7 @@ export default class Body extends Component {
         </Form>
         {/* to be removed */}
         <strong>onChange:</strong>
-        <pre>{JSON.stringify({ xcoord, ycoord }, null, 2)}</pre>
+        <pre>{JSON.stringify({ xcoord, ycoord, narumiXcoord, narumiYcoord }, null, 4)}</pre>
       </div>
     );
   }

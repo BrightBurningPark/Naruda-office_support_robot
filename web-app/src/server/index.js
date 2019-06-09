@@ -58,6 +58,6 @@ const server_narumi = app.listen(PORT_NARUMI, (err) => {
 })
 const io_narumi = new socketIO(server_narumi)
 
-// const task_manager = require('./TaskManager')(io_web, io_narumi)
+const task_manager = require('./TaskManager')(io_web, io_narumi)
 
-const test_manager = require('./TestManager')(io_web)
+// const test_manager = require('./TestManager')(io_web)
