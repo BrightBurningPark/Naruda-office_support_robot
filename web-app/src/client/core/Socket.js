@@ -10,17 +10,19 @@ class Socket {
     this.myYcoord = null;
   }
 
-  signUp = (email, password, xcoord, ycoord) => {
+  signUp = (email, name, password) => {
     var dbCheck = false
-    /*
-     * axios: DB에 email 이미 존재하는지 확인, res
-     */
-    if (dbCheck) {
-      // db에 새로운 account 추가
-      this.session.newcomer = false;
-      return true
-    }
-    return false
+
+    // axios: email, name, password 보내고 res.code에 따라 행동
+    axios.post('http://localhost:3000/signup', {
+      email: email,
+      name: name,
+      password: password
+    }).then((res) => {
+      return res;
+    }).catch(function (error) {
+      console.log(error)
+    })
   }
 
   /* Home 컴포넌트에서 조건부 rendering
@@ -40,22 +42,23 @@ class Socket {
    * 틀리면 return false;
    */
   auth = (email, password) => {
-    // axios.post('http://localhost:3000/signin', {
-    //   email: email,
-    //   password: password
-    // }).then((res) => {
-    //   if (res == 'true') {
-    //     console.log('true')
-    this.login(email)
-    //     return true
-    //   }
-    //   else if (res == 'false') {
-    //     alert('E-mail 혹은 password가 확인되지 않습니다.')
-    //     return false
-    //   }
-    // }).catch(function (error) {
-    //   console.log(error)
-    // })
+    axios.post('http://localhost:3000/signin', {
+      email: email,
+      password: password
+    }).then((res) => {
+      return res
+      // if (res == 'true') {
+      //   console.log('true')
+      //   this.login(email)
+      //   return true
+      // }
+      // else if (res == 'false') {
+      //   // alert('E-mail 혹은 password가 확인되지 않습니다.')
+      //   return false
+      // }
+    }).catch(function (error) {
+      console.log(error)
+    })
   }
 
   login = (email) => {

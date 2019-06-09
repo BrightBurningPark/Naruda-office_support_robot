@@ -10,20 +10,33 @@ export default class Home extends Component {
         super(props);
         this.state = {
             email: '', password: '',
-            emailError: '', passwordError: '',
+            emailError: false, passwordError: false, formError: false
         }
     }
 
     handleChange = (e, { name, value }) => {
         this.setState({ [name]: value })
-        /* todo: input 값 valid 한지 client에서 먼저 확인하는 함수
-         * State의 Error 값에 따라 맞는 modal rendering
-         */
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.auth(this.state.email, this.state.password)
+    handleSubmit = () => {
+        let error = false;
+
+        if (!this.state.email) {
+            this.setState({ emailError: true })
+            error = true
+        } else {
+            this.setState({ emailError: false })
+            error = false
+        }
+        if (!this.state.password) {
+            this.setState({ passwordError: true })
+            error = true
+        } else {
+            this.setState({ passwordError: false })
+            error = false
+        }
+        if (error == false)
+            this.props.auth(this.state.email, this.state.password)
     }
 
     render() {
@@ -35,12 +48,12 @@ export default class Home extends Component {
                     <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                         <Grid.Column style={{ maxWidth: 450 }}>
                             <Header as='h1' color='teal' textAlign='center'>Naruda</Header>
-                            <Header as='h2'>Take part in New Move of Autonomous Office</Header>
-                            <Form size='large'>
+                            <Header as='h2'>New Move of Autonomous Office</Header>
+                            <Form error={this.state.formError} size='large'>
                                 <Segment stacked>
-                                    <Form.Input fluid icon='user' iconPosition='left' placeholder='Email Address' name='email' value={email} onChange={this.handleChange} />
-                                    <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' name='password' value={password} onChange={this.handleChange} />
-                                    <Form.Button color='teal' fluid size='large' onClick={this.handleSubmit} >Log In</Form.Button>
+                                    <Form.Input fluid required={true} icon='mail' iconPosition='left' placeholder='Email Address' type='email' name='email' value={email} onChange={this.handleChange} />
+                                    <Form.Input fluid required={true} icon='lock' iconPosition='left' placeholder='Password' type='password' name='password' value={password} onChange={this.handleChange} />
+                                    <Form.Button color='teal' fluid size='large' onClick={this.handleSubmit} >Sign Up</Form.Button>
                                 </Segment>
                             </Form>
                             <Divider horizontal>Or</Divider>
@@ -55,7 +68,7 @@ export default class Home extends Component {
             )
         } else {
             return (
-                <SignUpForm socket={socket} signUp={(email, password, xcoord, ycoord) => socket.signUp(email, password, xcoord, ycoord)} ></SignUpForm>
+                <SignUpForm socket={socket} signUp={(email, name, password) => socket.signUp(email, name, password)} ></SignUpForm>
             )
         }
 

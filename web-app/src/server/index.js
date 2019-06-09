@@ -27,17 +27,41 @@ app.use('/', express.static(__dirname + '/../../dist'));
 app.post('/signin', function (req, res) {
   var email = req.body.email;
   var password = req.body.password;
-  var sql = "SELECT * FROM naruda_db01.user_table WHERE email_addr='" + email + "'AND password='" + password + "'";
-  // var sql = "SELECT * FROM user_table";
+  console.log('email: ' + email + 'password: ' + password)
+  // var sql = "SELECT * FROM naruda_db01.user_table WHERE email_addr='" + email + "'AND password='" + password + "'";
+  var sql = "select * from naruda_db01.user_table where email_addr = ? and password=?"
 
-  con.query(sql, function (err, rows, fields) {
-    if (!err) {
-      if (rows.length > 0)
-        res.send('true');
-      else
-        res.send('false');
+  con.query(sql, [email, password], function (err, rows) {
+
+    if (err) {
+      callback(err, null);
+      return;
+    }
+    if (rows.length > 0) {
+      res.send('true');
+      console.log('사용자 찾음');
+    } else {
+      res.send('false');
+      console.log('사용자 찾지 못함');
     }
   });
+})
+
+app.post('/signup', function (req, res) {
+  var email = req.body.email;
+  var name = req.body.name;
+  var password = req.body.password;
+  // var sql = "SELECT * FROM naruda_db01.user_table WHERE email_addr='" + email + "'AND password='" + password + "'";
+
+  // con.query(sql, function (err, rows, fields) {
+  //   if (!err) {
+  //     if (rows.length > 0)
+  //       res.send('true');
+  //     else
+  //       res.send('false');
+  //   }
+  // });
+  res.send('email_error')
 })
 
 const server_web = app.listen(PORT_WEB, (err) => {

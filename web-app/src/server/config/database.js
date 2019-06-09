@@ -8,9 +8,9 @@ const connection = mysql.createConnection({
   password: '159753',
   port: '3306',
   database: 'naruda_db01',
-  insecureAuth : true
-})
-
-connection.connect();
+  insecureAuth: true
+}, function (err) {
+  console.log(err);
+});
 
 module.exports = connection
