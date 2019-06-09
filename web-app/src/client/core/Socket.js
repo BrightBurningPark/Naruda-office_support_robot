@@ -1,12 +1,13 @@
 import io from 'socket.io-client';
 import axios from 'axios';
 
+// todo : 사용자 위치 DB 동기화?
 class Socket {
   constructor({ session }) {
     this.socket = null;
     this.session = session;
-    this.myXcoord = 1;
-    this.myYcoord = 1;
+    this.myXcoord = null;
+    this.myYcoord = null;
   }
 
   signUp = (email, password, xcoord, ycoord) => {
@@ -69,6 +70,10 @@ class Socket {
     this.socket.close();
     this.session.logedIn = false;
     this.session.email = null;
+  }
+
+  setMyPos = () => {
+
   }
 
   addTask = (xcoord, ycoord) => {

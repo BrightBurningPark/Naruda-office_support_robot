@@ -14,6 +14,7 @@ export default class Main extends Component {
                 <Header session={session} socket={socket} />
                 <Body
                     socket={socket} addTask={(xcoord, ycoord) => socket.addTask(xcoord, ycoord)}
+                    updatePos = {socket.updatePos} updateTask = {socket.updateTask}
                 />
             </div>
         );

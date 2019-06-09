@@ -14,7 +14,6 @@ const Wrapper = styled.div`
     height: ${props => props.height};
 `;
 
-
 @observer
 export default class Body extends Component {
   constructor(props) {
@@ -32,17 +31,15 @@ export default class Body extends Component {
     });
     L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png').addTo(this.map);
 
-    // todo: socket.on
+    this.props.updatePos()
+    this.props.updateTask()
   }
 
   componentWillUnmount() {
   }
 
   handleChange = (e, { name, value }) => {
-    this.setState({ [name]: value })
-    /* todo: input 값 valid 한지 client에서 먼저 확인하는 함수
-     * State의 Error 값에 따라 맞는 modal rendering
-     */
+    this.setState({ [name]: parseInt(value, 10) })
   }
 
   handleSubmit = (e) => {
