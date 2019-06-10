@@ -11,15 +11,20 @@ class Socket {
   }
 
   signUp = (email, name, password) => {
-    var dbCheck = false
-
-    // axios: email, name, password 보내고 res.code에 따라 행동
     axios.post('http://localhost:3000/signup', {
       email: email,
       name: name,
       password: password
     }).then((res) => {
-      return res;
+      if (res.data == 'signup_success') {
+        console.log('signup success')
+        this.resetNewcomer()
+      }
+      else if (res.data == 'email_error') {
+        console.log('email error')
+      }
+      else
+        console.log(res.data)
     }).catch(function (error) {
       console.log(error)
     })
