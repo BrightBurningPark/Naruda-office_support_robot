@@ -101,17 +101,17 @@ def testcode():
 if __name__ == "__main__":
     print ('firmware started')
     narslam = rpslam.narlam()
-    #TODO: do yes map slam
     path_map_name = PATH_MAP + '/' + MAP_NAME_YES_SLAM
     t_slam = threading.Thread(target=narslam.slam_yes_map, args=(path_map_name,))
     t_slam.start()
-    print('SLAM activated')
-    
-    nxt = ntdriver.lego_nxt()
-    nxt.connect()
-    nxt.send('s60')
-    print('nxt connected')
+    i = 1
+    while i < 10:
+        i = i+1
+        print('countdown ', 10 - i)
+        time.sleep(1)
 
+    print('generating bytearray clear')
+    print('SLAM activated')
 
     while(1):
         cmd = input("please give me order\n(\"goto\": run testcode | 0,1,2,3,4: move)\n>> ")
@@ -124,7 +124,7 @@ if __name__ == "__main__":
             t_slam.join()
             sys.exit(0)
         else:
-            nxt.send(cmd)
+            pass
         
         print('(', narslam.x, '|', narslam.y, '|', narslam.theta, ')')
 
