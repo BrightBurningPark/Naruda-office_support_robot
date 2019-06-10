@@ -7,6 +7,7 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import styled from 'styled-components'
 import 'semantic-ui-less/semantic.less'
+import 'leaflet-mouse-position'
 
 const Wrapper = styled.div`
     width: ${props => props.width};
@@ -20,6 +21,25 @@ const mapMaxResolution = 1.00000000;
 const mapMinResolution = Math.pow(2, mapMaxZoom) * mapMaxResolution;
 const tileExtent = [0.00000000, -716.00000000, 717.00000000, 0.00000000];
 const crs = L.CRS.Simple;
+
+const markericon_blue = new L.icon({
+  iconUrl: './data/marker-icon.png'
+})
+
+const markericon_yellow = new L.icon({
+  iconUrl: './data/marker-icon-y.png'
+})
+
+const markericon_red = new L.icon({
+  iconUrl: './data/marker-icon-r.png'
+})
+
+const markericon_green = new L.icon({
+  iconUrl: './data/marker-icon-g.png'
+})
+
+
+
 crs.transformation = new L.Transformation(1, -tileExtent[0], -1, tileExtent[3]);
 crs.scale = function (zoom) {
   return Math.pow(2, zoom) / mapMinResolution;
@@ -38,6 +58,7 @@ export default class Body extends Component {
     }
   }
 
+
   componentDidMount() {
 
     this.map = L.map('map', {
@@ -53,14 +74,29 @@ export default class Body extends Component {
       tms: false
     }).addTo(this.map);
 
+<<<<<<< HEAD
     const markericon = new L.icon({
       iconUrl: './data/marker-icon.png'
     })
 
     L.marker([1, 1], {
       icon: markericon,
+=======
+    
+
+    var destMarker = L.marker([0, 0], {
+      icon: markericon_blue,
+>>>>>>> 1a1fc25533aaddab28537f08f64657b19200ef42
       draggable: true
     }).addTo(this.map);
+
+
+    L.control.mousePosition().addTo(this.map);
+
+    this.map.on('click', function (e) {
+      let x = e.latlng;
+      destMarker.setLatLng(x);
+    });
 
     this.map.fitBounds([
       crs.unproject(L.point(mapExtent[2], mapExtent[3])),
@@ -72,6 +108,12 @@ export default class Body extends Component {
     this.props.updateTask()
   }
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 1a1fc25533aaddab28537f08f64657b19200ef42
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: parseInt(value, 10) })
   }
@@ -97,6 +139,7 @@ export default class Body extends Component {
             <Form.Button type='submit'>Call Narumi</Form.Button>
           </Form.Group>
         </Form>
+
         {/* to be removed */}
         <strong>onChange:</strong>
         <pre>{JSON.stringify({ xcoord, ycoord, myXcoord, myYcoord, narumiXcoord, narumiYcoord }, null, 6)}</pre>
