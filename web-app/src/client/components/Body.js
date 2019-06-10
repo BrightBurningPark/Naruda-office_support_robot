@@ -2,11 +2,10 @@
 
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import { Form } from 'semantic-ui-react'
-import L from 'leaflet'
+import { Form, Container } from 'semantic-ui-react'
+import L from 'leaflet'   
 import 'leaflet/dist/leaflet.css'
 import styled from 'styled-components'
-import { Container } from 'semantic-ui-react'
 import 'semantic-ui-less/semantic.less'
 
 const Wrapper = styled.div`
@@ -35,11 +34,13 @@ export default class Body extends Component {
     super(props);
     this.state = {
       xcoord: '', ycoord: '',
-      narumiXcoord: 0, narumiYcoord: 0
+      narumiXcoord: 0, narumiYcoord: 0,
+      markerPosition : [100,100]
     }
   }
 
   componentDidMount() {
+
     this.map = L.map('map', {
       maxZoom: mapMaxZoom,
       minZoom: mapMinZoom,
@@ -52,19 +53,30 @@ export default class Body extends Component {
       noWrap: true,
       tms: false
     }).addTo(this.map);
+
+    const markericon = new L.icon({
+      iconUrl:'./data/marker-icon.png'
+    })
+
+    L.marker( [1 , 1],{
+      icon : markericon,
+      draggable : true
+    }).addTo(this.map);
+
     this.map.fitBounds([
       crs.unproject(L.point(mapExtent[2], mapExtent[3])),
       crs.unproject(L.point(mapExtent[0], mapExtent[1]))
     ]);
 
-    this.props.updatePos()
-      .then(res => {
-        this.setState(state => ({ ...state, narumiXcoord: res.xcoord, narumiYcoord: res.ycoord }))
-      })
 
-    this.props.updateTask()
+
+    this.props.updatePos();
+    this.props.updateTask();
   }
 
+
+
+  
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: parseInt(value, 10) })
   }

@@ -42,24 +42,24 @@ class Socket {
    * 틀리면 return false;
    */
   auth = (email, password) => {
-    axios.post('http://localhost:3000/signin', {
-      email: email,
-      password: password
-    }).then((res) => {
-      console.log(res.data)
-      if (res.data == false) {
-        console.log('login success')
-        return false
-      }
-      else {
-        console.log('login failed')
+    // axios.post('http://localhost:3000/signin', {
+    //   email: email,
+    //   password: password
+    // }).then((res) => {
+    //   console.log(res.data)
+    //   if (res.data == false) {
+    //     console.log('login success')
+    //     return false
+    //   }
+    //   else {
+    //     console.log('login failed')
         this.login(email)
-        return true
-      }
-    }).catch(function (error) {
-      console.log(error)
-    })
-  }
+  //       return true
+  //     }
+  //   }).catch(function (error) {
+  //     console.log(error)
+  //   })
+   }
 
   login = (email) => {
     this.socket = io.connect('http://localhost:3000');

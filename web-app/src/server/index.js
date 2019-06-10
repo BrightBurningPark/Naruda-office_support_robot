@@ -34,7 +34,7 @@ app.post('/signin', function (req, res) {
   con.query(sql, [email, password], function (err, rows) {
 
     if (err) {
-      callback(err, null);
+      // callback(err, null);
       return;
     }
     if (rows.length > 0) {
