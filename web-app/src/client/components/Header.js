@@ -35,14 +35,13 @@ export default class Header extends Component {
 
         return (
             <div>
-                <Container text style={{ marginTop: '1em' }} />
                 {/* {<Visibility onBottomPassed={this.stickTopMenu} onBottomVisible={this.unStickTopMenu} once={false} >
                     <Menu fixed={menuFixed ? 'top' : undefined} style={menuFixed ? fixedMenuStyle : menuStyle} > */}
-                <Menu text style={fixedMenuStyle}>
-                    <Menu.Item header>Naruda</Menu.Item>
+                <Menu style={fixedMenuStyle}>
+                    <Menu.Item header color='teal'>Naruda</Menu.Item>
                     <Menu.Menu position='right'>
                         <Menu.Item header>{session.email}</Menu.Item>
-                        <Button color='teal' fluid  >My Info</Button>
+                        <Button color='teal' fluid onClick={socket.editInfo} >My Info</Button>
                         <Button color='teal' fluid to="/" onClick={socket.signout} >Sign Out</Button>
                     </Menu.Menu>
                 </Menu>

@@ -28,7 +28,7 @@ app.post('/signin', function (req, res) {
   var email = req.body.email;
   var password = req.body.password;
   console.log('signin request, email: ' + email + ' password: ' + password)
-  var sql = "select * from naruda_db01.user_table where email_addr = ? and password = ?"
+  var sql = "select coord_x, coord_y from naruda_db01.user_table where email_addr = ? and password = ?"
 
   con.query(sql, [email, password], function (err, rows) {
 
@@ -37,8 +37,8 @@ app.post('/signin', function (req, res) {
       return;
     }
     if (rows.length > 0) {
-      res.send(true);
       console.log('사용자 찾음');
+      res.send([rows[0].coord_x, rows[0].coord_y])
     } else {
       res.send(false);
       console.log('사용자 찾지 못함');

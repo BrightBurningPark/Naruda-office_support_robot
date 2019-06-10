@@ -1,11 +1,16 @@
-import { observable, computed, action } from 'mobx'
+import { observable } from 'mobx'
 
 class Session {
   @observable logedIn = false;
-  @observable email = null;
-  @observable xcoord = null;
-  @observable ycoord = null;
+  @observable editInfo = false;
   @observable newcomer = false;
+
+  @observable email = null;
+  @observable taskQueue = null;
+  @observable myXcoord = null;
+  @observable myYcoord = null;
+  @observable narumiXcoord = null;
+  @observable narumiYcoord = null;
 }
 
 export default Session;

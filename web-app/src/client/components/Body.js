@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 import { Form, Container } from 'semantic-ui-react'
-import L from 'leaflet'   
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import styled from 'styled-components'
 import 'semantic-ui-less/semantic.less'
@@ -34,8 +34,7 @@ export default class Body extends Component {
     super(props);
     this.state = {
       xcoord: '', ycoord: '',
-      narumiXcoord: 0, narumiYcoord: 0,
-      markerPosition : [100,100]
+      markerPosition: [100, 100]
     }
   }
 
@@ -55,12 +54,12 @@ export default class Body extends Component {
     }).addTo(this.map);
 
     const markericon = new L.icon({
-      iconUrl:'./data/marker-icon.png'
+      iconUrl: './data/marker-icon.png'
     })
 
-    L.marker( [1 , 1],{
-      icon : markericon,
-      draggable : true
+    L.marker([1, 1], {
+      icon: markericon,
+      draggable: true
     }).addTo(this.map);
 
     this.map.fitBounds([
@@ -68,15 +67,11 @@ export default class Body extends Component {
       crs.unproject(L.point(mapExtent[0], mapExtent[1]))
     ]);
 
+    this.props.updatePos()
 
-
-    this.props.updatePos();
-    this.props.updateTask();
+    this.props.updateTask()
   }
 
-
-
-  
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: parseInt(value, 10) })
   }
@@ -87,7 +82,9 @@ export default class Body extends Component {
   }
 
   render() {
-    const { xcoord, ycoord, narumiXcoord, narumiYcoord } = this.state
+    const { xcoord, ycoord } = this.state
+    const { taskQueue, myXcoord, myYcoord, narumiXcoord, narumiYcoord } = this.props
+
     return (
       <div>
         <Container textAlign='center'>
@@ -95,14 +92,15 @@ export default class Body extends Component {
         </Container>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>
-            <Form.Input label='X Coordinate' name='xcoord' placeholder='X Coordinate' value={this.state.xcoord} onChange={this.handleChange}></Form.Input>
-            <Form.Input label='Y Coordinate' name='ycoord' placeholder='Y Coordinate' value={this.state.ycoord} onChange={this.handleChange}></Form.Input>
+            <Form.Input fluid label='X Coordinate'  placeholder='X Coordinate' name='xcoord' value={xcoord} onChange={this.handleChange} />
+            <Form.Input fluid label='Y Coordinate'  placeholder='Y Coordinate' name='ycoord' value={ycoord} onChange={this.handleChange} />
             <Form.Button type='submit'>Call Narumi</Form.Button>
           </Form.Group>
         </Form>
         {/* to be removed */}
         <strong>onChange:</strong>
-        <pre>{JSON.stringify({ xcoord, ycoord, narumiXcoord, narumiYcoord }, null, 4)}</pre>
+        <pre>{JSON.stringify({ xcoord, ycoord, myXcoord, myYcoord, narumiXcoord, narumiYcoord }, null, 6)}</pre>
+        <pre>{JSON.stringify({ taskQueue }, null, 1)}</pre>
       </div>
     );
   }

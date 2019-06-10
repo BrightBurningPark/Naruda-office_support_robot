@@ -6,8 +6,6 @@ class Socket {
   constructor({ session }) {
     this.socket = null;
     this.session = session;
-    this.myXcoord = null;
-    this.myYcoord = null;
   }
 
   signUp = (email, name, password) => {
@@ -53,23 +51,25 @@ class Socket {
     }).then((res) => {
       console.log(res.data)
       if (res.data == false) {
-        console.log('login success')
+        console.log('login failed')
         return false
       }
       else {
-        console.log('login failed')
-        this.login(email)
+        console.log('login success')
+        this.login(email, res.data[0], res.data[1])
         return true
       }
     }).catch(function (error) {
       console.log(error)
     })
-   }
+  }
 
-  login = (email) => {
+  login = (email, x, y) => {
     this.socket = io.connect('http://localhost:3000');
-    this.session.logedIn = true;
     this.session.email = email;
+    this.session.myXcoord = x;
+    this.session.myYcoord = y;
+    this.session.logedIn = true;
   }
 
   signout = () => {
@@ -78,21 +78,20 @@ class Socket {
     this.socket.close();
     this.session.logedIn = false;
     this.session.email = null;
-  }
-
-  setMyPos = () => {
-
+    this.session.myXcoord = null;
+    this.session.myYcoord = null;
   }
 
   addTask = (xcoord, ycoord) => {
-    this.socket.emit('new_task', { fromXcoord: this.myXcoord, fromYcoord: this.myYcoord, toXcoord: xcoord, toYcoord: ycoord })
+    this.socket.emit('new_task', { fromXcoord: this.session.myXcoord, fromYcoord: this.session.myYcoord, toXcoord: xcoord, toYcoord: ycoord })
     console.log('emit new_task')
   }
 
   updatePos = () => {
     return new Promise((resolve, reject) => {
       this.socket.on('update_pos', (res) => {
-        console.log(res);
+        this.session.narumiXcoord = res.xcoord
+        this.session.narumiYcoord = res.ycoord
         resolve(res)
       })
     })
@@ -101,7 +100,7 @@ class Socket {
   updateTask = () => {
     return new Promise((resolve, reject) => {
       this.socket.on('update_task', (res) => {
-        console.log(res);
+        this.session.taskQueue = res
         resolve(res)
       })
     })
