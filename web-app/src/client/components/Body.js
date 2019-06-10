@@ -74,19 +74,10 @@ export default class Body extends Component {
       tms: false
     }).addTo(this.map);
 
-<<<<<<< HEAD
-    const markericon = new L.icon({
-      iconUrl: './data/marker-icon.png'
-    })
-
-    L.marker([1, 1], {
-      icon: markericon,
-=======
     
 
     var destMarker = L.marker([0, 0], {
       icon: markericon_blue,
->>>>>>> 1a1fc25533aaddab28537f08f64657b19200ef42
       draggable: true
     }).addTo(this.map);
 
@@ -108,12 +99,6 @@ export default class Body extends Component {
     this.props.updateTask()
   }
 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 1a1fc25533aaddab28537f08f64657b19200ef42
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: parseInt(value, 10) })
   }
