@@ -46,7 +46,7 @@ export default class Body extends Component {
       crs: crs
     });
 
-    L.tileLayer('./data/{z}/{x}/{y}.png', {
+    L.tileLayer('data/{z}/{x}/{y}.png', {
       minZoom: mapMinZoom, maxZoom: mapMaxZoom,
       attribution: 'Rendered with <a href="https://www.maptiler.com/desktop/">MapTiler Desktop</a>',
       noWrap: true,

@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const port = process.env.PORT || 3000;
 
 module.exports = {
@@ -57,6 +58,9 @@ module.exports = {
         'window.jQuery': 'jquery',
       }
     ),
+    new CopyPlugin([
+      { from: 'src/public/data', to: 'data' }
+    ]),
   ],
   devServer: {
     filename: 'bundle.js',
