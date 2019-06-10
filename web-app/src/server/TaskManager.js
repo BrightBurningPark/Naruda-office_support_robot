@@ -1,7 +1,7 @@
 import Queue from './Queue'
 
 var taskQueue = new Queue()
-var position = { xcoord: 2, ycoord: 2 }
+var position = { xcoord: 200, ycoord: -300 }
 
 /*
  * taskQueue의 object는 {
@@ -52,7 +52,8 @@ exports = module.exports = function (io_web, io_narumi) {
 
         socket.on('position', (message) => {
             // message는 배열[x, y]
-            position = { xcoord: message[0], ycoord: message[1] }
+            position = { xcoord: message[1] - 720, ycoord: message[0] }
+            console.log(position)
         })
 
         socket.on('ready_to_move', () => {

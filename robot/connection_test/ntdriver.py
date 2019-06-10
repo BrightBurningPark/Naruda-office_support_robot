@@ -5,7 +5,7 @@ import socketio
 import time
 
 class server:
-    SERVER_ADDR = 'http://localhost:3000'
+    SERVER_ADDR = 'http://localhost:3010'
     sio = socketio.Client()
 
     def __init__(self):
@@ -14,10 +14,10 @@ class server:
     def connect(self):
         server.sio.connect(server.SERVER_ADDR)
 
-    def report_position(self, slam_core):
+    def report_position(self, x, y):
         # report current position to the server periodically
         # period is... about 500ms.
-        server.sio.emit('position', [slam_core.x, slam_core.y])
+        server.sio.emit('position', [x, y])
         time.sleep(0.5)
 
     def report_progress(self):

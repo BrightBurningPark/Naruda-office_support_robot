@@ -7,7 +7,6 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import styled from 'styled-components'
 import 'semantic-ui-less/semantic.less'
-import 'leaflet-mouse-position'
 
 const Wrapper = styled.div`
     width: ${props => props.width};
@@ -38,7 +37,9 @@ const markericon_green = new L.icon({
   iconUrl: './data/marker-icon-g.png'
 })
 
-
+var narumiMarker = L.marker([-25, -25], {
+  icon: markericon_red,
+})
 
 crs.transformation = new L.Transformation(1, -tileExtent[0], -1, tileExtent[3]);
 crs.scale = function (zoom) {
@@ -54,10 +55,18 @@ export default class Body extends Component {
     super(props);
     this.state = {
       xcoord: '', ycoord: '',
+      NarumiX: 0, NarumiY: 0,
       markerPosition: [100, 100]
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.narumiXcoord !== this.state.NarumiX && nextProps.narumiXcoord !== null) {
+      if (nextProps.narumiYcoord !== this.state.NarumiY && nextProps.narumiYcoord !== null) {
+        this.setState({ NarumiX: nextProps.narumiXcoord, NarumiY: nextProps.narumiYcoord });
+      }
+    }
+  }
 
   componentDidMount() {
 
@@ -74,18 +83,18 @@ export default class Body extends Component {
       tms: false
     }).addTo(this.map);
 
-    
-
     var destMarker = L.marker([0, 0], {
       icon: markericon_blue,
       draggable: true
     }).addTo(this.map);
 
-
-    L.control.mousePosition().addTo(this.map);
+    narumiMarker.addTo(this.map);
 
     this.map.on('click', function (e) {
       let x = e.latlng;
+      // xcoord: message[1] - 720, ycoord: message[0]
+      var xcoord = x.lng
+      var ycoord = x.lat + 720
       destMarker.setLatLng(x);
     });
 
@@ -112,6 +121,8 @@ export default class Body extends Component {
     const { xcoord, ycoord } = this.state
     const { taskQueue, myXcoord, myYcoord, narumiXcoord, narumiYcoord } = this.props
 
+    narumiMarker.setLatLng([this.state.NarumiX, this.state.NarumiY])
+
     return (
       <div>
         <Container textAlign='center'>
@@ -119,8 +130,8 @@ export default class Body extends Component {
         </Container>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>
-            <Form.Input fluid label='X Coordinate'  placeholder='X Coordinate' name='xcoord' value={xcoord} onChange={this.handleChange} />
-            <Form.Input fluid label='Y Coordinate'  placeholder='Y Coordinate' name='ycoord' value={ycoord} onChange={this.handleChange} />
+            <Form.Input fluid label='X Coordinate' placeholder='X Coordinate' name='xcoord' value={xcoord} onChange={this.handleChange} />
+            <Form.Input fluid label='Y Coordinate' placeholder='Y Coordinate' name='ycoord' value={ycoord} onChange={this.handleChange} />
             <Form.Button type='submit'>Call Narumi</Form.Button>
           </Form.Group>
         </Form>

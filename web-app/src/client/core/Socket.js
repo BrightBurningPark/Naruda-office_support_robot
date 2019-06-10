@@ -90,8 +90,8 @@ class Socket {
   updatePos = () => {
     return new Promise((resolve, reject) => {
       this.socket.on('update_pos', (res) => {
-        this.session.narumiXcoord = res.xcoord
-        this.session.narumiYcoord = res.ycoord
+        this.session.narumiXcoord = parseInt(res.xcoord, 10)
+        this.session.narumiYcoord = parseInt(res.ycoord, 10)
         resolve(res)
       })
     })

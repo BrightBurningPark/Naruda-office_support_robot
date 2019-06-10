@@ -45,10 +45,6 @@ if __name__ == "__main__":
     connect_all()
 
     while True:
-        if ser.request != None:
-            print('request detected.')
-            print(ser.request)
-        else:
-            pass
-
-
+        a = input('x : ')
+        b = input('y : ')
+        ser.report_position(a, b)
