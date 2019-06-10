@@ -31,6 +31,11 @@ app.post('/signin', function (req, res) {
   var sql = "select * from naruda_db01.user_table where email_addr = ? and password = ?"
 
   con.query(sql, [email, password], function (err, rows) {
+
+    if (err) {
+      // callback(err, null);
+      return;
+    }
     if (rows.length > 0) {
       res.send(true);
       console.log('사용자 찾음');

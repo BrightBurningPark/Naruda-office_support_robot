@@ -64,7 +64,7 @@ class Socket {
     }).catch(function (error) {
       console.log(error)
     })
-  }
+   }
 
   login = (email) => {
     this.socket = io.connect('http://localhost:3000');

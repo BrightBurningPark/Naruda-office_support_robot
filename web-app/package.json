@@ -18,6 +18,7 @@
     "express": "^4.16.4",
     "html": "^1.0.0",
     "leaflet": "^1.5.1",
+    "leaflet-mouse-position": "^1.2.0",
     "mobx": "^5.9.4",
     "mobx-react": "^6.0.2",
     "react": "^16.8.4",
