@@ -15,7 +15,9 @@
     </style>
   </head>
   <body>
-    <div id="map"></div>
+    <div id="map">
+      
+    </div>
     
     <script type="text/javascript">
       var mapExtent = [0.00000000, -716.00000000, 717.00000000, 0.00000000];
@@ -52,10 +54,29 @@
       
       L.control.mousePosition().addTo(map);
 
-      L.marker([1,500]).addTo(map);
+      var x = [0,0];
+      var marker = L.marker(x).addTo(map);
+      this.map.on('click', function(e){
+        
+        x = e.latlng;
+        marker.setLatLng(x);
+        
+      } );
+
+    //   this.map.on('click', function (e) {
+    //   let x = e.latlng;
+    //   destMarker.setLatLng(x);
+    // });
+
+      
+
+  
 
 
     </script>
 
+    <div>
+      
+    </div>
   </body>
 </html>

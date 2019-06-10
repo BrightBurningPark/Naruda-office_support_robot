@@ -3,10 +3,11 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 import { Form, Container } from 'semantic-ui-react'
-import L from 'leaflet'   
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import styled from 'styled-components'
 import 'semantic-ui-less/semantic.less'
+import 'leaflet-mouse-position'
 
 const Wrapper = styled.div`
     width: ${props => props.width};
@@ -20,6 +21,25 @@ const mapMaxResolution = 1.00000000;
 const mapMinResolution = Math.pow(2, mapMaxZoom) * mapMaxResolution;
 const tileExtent = [0.00000000, -716.00000000, 717.00000000, 0.00000000];
 const crs = L.CRS.Simple;
+
+const markericon_blue = new L.icon({
+  iconUrl: './data/marker-icon.png'
+})
+
+const markericon_yellow = new L.icon({
+  iconUrl: './data/marker-icon-y.png'
+})
+
+const markericon_red = new L.icon({
+  iconUrl: './data/marker-icon-r.png'
+})
+
+const markericon_green = new L.icon({
+  iconUrl: './data/marker-icon-g.png'
+})
+
+
+
 crs.transformation = new L.Transformation(1, -tileExtent[0], -1, tileExtent[3]);
 crs.scale = function (zoom) {
   return Math.pow(2, zoom) / mapMinResolution;
@@ -35,9 +55,10 @@ export default class Body extends Component {
     this.state = {
       xcoord: '', ycoord: '',
       narumiXcoord: 0, narumiYcoord: 0,
-      markerPosition : [100,100]
+      markerPosition: [100, 100]
     }
   }
+
 
   componentDidMount() {
 
@@ -54,14 +75,20 @@ export default class Body extends Component {
       tms: false
     }).addTo(this.map);
 
-    const markericon = new L.icon({
-      iconUrl:'./data/marker-icon.png'
-    })
+    
 
-    L.marker( [1 , 1],{
-      icon : markericon,
-      draggable : true
+    var destMarker = L.marker([0, 0], {
+      icon: markericon_blue,
+      draggable: true
     }).addTo(this.map);
+
+
+    L.control.mousePosition().addTo(this.map);
+
+    this.map.on('click', function (e) {
+      let x = e.latlng;
+      destMarker.setLatLng(x);
+    });
 
     this.map.fitBounds([
       crs.unproject(L.point(mapExtent[2], mapExtent[3])),
@@ -76,7 +103,7 @@ export default class Body extends Component {
 
 
 
-  
+
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: parseInt(value, 10) })
   }
@@ -100,6 +127,7 @@ export default class Body extends Component {
             <Form.Button type='submit'>Call Narumi</Form.Button>
           </Form.Group>
         </Form>
+
         {/* to be removed */}
         <strong>onChange:</strong>
         <pre>{JSON.stringify({ xcoord, ycoord, narumiXcoord, narumiYcoord }, null, 4)}</pre>
