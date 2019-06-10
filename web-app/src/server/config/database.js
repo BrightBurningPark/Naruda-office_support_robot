@@ -7,11 +7,10 @@ const connection = mysql.createConnection({
   user: 'db_user01',
   password: '159753',
   port: '3306',
-  database: 'naruda_db01'
-})
-
-connection.connect()
-
-//connection.end()
+  database: 'naruda_db01',
+  insecureAuth: true
+}, function (err) {
+  console.log(err);
+});
 
 module.exports = connection

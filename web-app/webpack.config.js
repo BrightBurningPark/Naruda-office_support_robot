@@ -7,11 +7,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const port = process.env.PORT || 3000;
 
 module.exports = {
-  entry: [
-    './src/index.js',
-    'webpack-dev-server/client?http://0.0.0.0:3000',
-    'webpack/hot/only-dev-server'
-  ],
+  entry: './src/client/index.js',
   output: {
     path: __dirname + '/dist',
     filename: 'bundle.js'
@@ -70,7 +66,7 @@ module.exports = {
     disableHostCheck: true,
     historyApiFallback: true,
     proxy: {
-        "**": "http://localhost:3000"
+      "**": "http://localhost:3000"
     }
   }
 };
