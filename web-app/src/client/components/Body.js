@@ -45,7 +45,8 @@ export default class Body extends Component {
       minZoom: mapMinZoom,
       crs: crs
     });
-    L.tileLayer('data/{z}/{x}/{y}.png', {
+
+    L.tileLayer('./data/{z}/{x}/{y}.png', {
       minZoom: mapMinZoom, maxZoom: mapMaxZoom,
       attribution: 'Rendered with <a href="https://www.maptiler.com/desktop/">MapTiler Desktop</a>',
       noWrap: true,
@@ -55,7 +56,6 @@ export default class Body extends Component {
       crs.unproject(L.point(mapExtent[2], mapExtent[3])),
       crs.unproject(L.point(mapExtent[0], mapExtent[1]))
     ]);
-    L.control.mousePosition().addTo(map)
 
     this.props.updatePos()
       .then(res => {
