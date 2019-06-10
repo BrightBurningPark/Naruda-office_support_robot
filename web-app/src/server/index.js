@@ -38,10 +38,10 @@ app.post('/signin', function (req, res) {
       return;
     }
     if (rows.length > 0) {
-      res.send('true');
+      res.send(true);
       console.log('사용자 찾음');
     } else {
-      res.send('false');
+      res.send(false);
       console.log('사용자 찾지 못함');
     }
   });

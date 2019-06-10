@@ -46,16 +46,16 @@ class Socket {
       email: email,
       password: password
     }).then((res) => {
-      return res
-      // if (res == 'true') {
-      //   console.log('true')
-      //   this.login(email)
-      //   return true
-      // }
-      // else if (res == 'false') {
-      //   // alert('E-mail 혹은 password가 확인되지 않습니다.')
-      //   return false
-      // }
+      console.log(res.data)
+      if (res.data == false) {
+        console.log('login success')
+        return false
+      }
+      else {
+        console.log('login failed')
+        this.login(email)
+        return true
+      }
     }).catch(function (error) {
       console.log(error)
     })

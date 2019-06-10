@@ -36,7 +36,10 @@ export default class Home extends Component {
             error = false
         }
         if (error == false)
-            this.props.auth(this.state.email, this.state.password)
+            this.props.auth(this.state.email, this.state.password, (res) => {
+                if (res == false)
+                    alert('E-mail 혹은 password가 확인되지 않습니다.')
+            })
     }
 
     render() {
@@ -53,7 +56,7 @@ export default class Home extends Component {
                                 <Segment stacked>
                                     <Form.Input fluid required={true} icon='mail' iconPosition='left' placeholder='Email Address' type='email' name='email' value={email} onChange={this.handleChange} />
                                     <Form.Input fluid required={true} icon='lock' iconPosition='left' placeholder='Password' type='password' name='password' value={password} onChange={this.handleChange} />
-                                    <Form.Button color='teal' fluid size='large' onClick={this.handleSubmit} >Sign Up</Form.Button>
+                                    <Form.Button color='teal' fluid size='large' onClick={this.handleSubmit} >Log In</Form.Button>
                                 </Segment>
                             </Form>
                             <Divider horizontal>Or</Divider>

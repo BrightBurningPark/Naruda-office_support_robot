@@ -14,6 +14,21 @@ const Wrapper = styled.div`
     height: ${props => props.height};
 `;
 
+const mapExtent = [0.00000000, -716.00000000, 717.00000000, 0.00000000];
+const mapMinZoom = 0;
+const mapMaxZoom = 2;
+const mapMaxResolution = 1.00000000;
+const mapMinResolution = Math.pow(2, mapMaxZoom) * mapMaxResolution;
+const tileExtent = [0.00000000, -716.00000000, 717.00000000, 0.00000000];
+const crs = L.CRS.Simple;
+crs.transformation = new L.Transformation(1, -tileExtent[0], -1, tileExtent[3]);
+crs.scale = function (zoom) {
+  return Math.pow(2, zoom) / mapMinResolution;
+};
+crs.zoom = function (scale) {
+  return Math.log(scale * mapMinResolution) / Math.LN2;
+};
+
 @observer
 export default class Body extends Component {
   constructor(props) {
@@ -26,21 +41,28 @@ export default class Body extends Component {
 
   componentDidMount() {
     this.map = L.map('map', {
-      center: [58, 16],
-      zoom: 6,
-      zommControl: false
+      maxZoom: mapMaxZoom,
+      minZoom: mapMinZoom,
+      crs: crs
     });
-    L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png').addTo(this.map);
+    L.tileLayer('data/{z}/{x}/{y}.png', {
+      minZoom: mapMinZoom, maxZoom: mapMaxZoom,
+      attribution: 'Rendered with <a href="https://www.maptiler.com/desktop/">MapTiler Desktop</a>',
+      noWrap: true,
+      tms: false
+    }).addTo(this.map);
+    this.map.fitBounds([
+      crs.unproject(L.point(mapExtent[2], mapExtent[3])),
+      crs.unproject(L.point(mapExtent[0], mapExtent[1]))
+    ]);
+    L.control.mousePosition().addTo(map)
 
     this.props.updatePos()
       .then(res => {
         this.setState(state => ({ ...state, narumiXcoord: res.xcoord, narumiYcoord: res.ycoord }))
       })
-      
-    this.props.updateTask()
-  }
 
-  componentWillUnmount() {
+    this.props.updateTask()
   }
 
   handleChange = (e, { name, value }) => {

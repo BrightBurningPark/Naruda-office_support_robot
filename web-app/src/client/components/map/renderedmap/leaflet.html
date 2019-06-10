@@ -16,7 +16,7 @@
   </head>
   <body>
     <div id="map"></div>
-    <input id="slider" type="range" min="0" max="1" step="0.1" value="1" oninput="layer.setOpacity(this.value)">
+    
     <script type="text/javascript">
       var mapExtent = [0.00000000, -716.00000000, 717.00000000, 0.00000000];
       var mapMinZoom = 0;
@@ -39,7 +39,7 @@
           crs: crs
         });
         
-        layer = L.tileLayer('{z}/{x}/{y}.png', {
+        layer = L.tileLayer('data/{z}/{x}/{y}.png', {
           minZoom: mapMinZoom, maxZoom: mapMaxZoom,
           attribution: 'Rendered with <a href="https://www.maptiler.com/desktop/">MapTiler Desktop</a>',
           noWrap: true,
@@ -51,5 +51,6 @@
       ]);
       L.control.mousePosition().addTo(map)
     </script>
+
   </body>
 </html>
