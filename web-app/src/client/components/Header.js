@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import { Container, Button, Menu, Visibility } from 'semantic-ui-react'
+import { Container, Button, Menu } from 'semantic-ui-react'
 
 /*
 const menuStyle = {
