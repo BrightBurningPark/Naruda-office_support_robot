@@ -1,8 +1,9 @@
 from gridmap import OccupancyGridMap as ogm
 from a_star import a_star
 from utils import plot_path
-import rpslam
+from rpslam import *
 import matplotlib.pyplot as plt
+
 
 class navigation:
     def __init__(self, map_path_with_name):
