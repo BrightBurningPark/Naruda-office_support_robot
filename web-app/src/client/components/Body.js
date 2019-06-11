@@ -68,6 +68,15 @@ const enblock = (coord) => {
   else { return 630; }
 }
 
+const enblock_robot = (coord) => {
+  if (coord == 90) { return 900; }
+  else if (coord == 270) { return 1400; }
+  else if (coord == 450) { return 1800; }
+  else if (coord == 630) { return 2350; }
+  else
+  ;
+}
+
 @observer
 export default class Body extends Component {
   constructor(props) {
@@ -85,6 +94,8 @@ export default class Body extends Component {
         this.setState({ NarumiX: nextProps.narumiXcoord, NarumiY: nextProps.narumiYcoord });
       }
     }
+
+    
 
     if (nextProps.myXcoord !== this.state.MyX && nextProps.myXcoord !== null) {
       if (nextProps.myYcoord !== this.state.MyY && nextProps.myYcoord !== null) {
@@ -121,7 +132,9 @@ export default class Body extends Component {
       var xcoord = enblock(x.lat)
       var ycoord = enblock(x.lng)
       toX = ycoord
+      toX = enblock_robot(toX)
       toY = xcoord + 720
+      toY = enblock_robot(toY)
       console.log("x" + xcoord + "bx" + x.lat);
       console.log("y" + ycoord + "by" + x.lng);
       destMarker.setLatLng([xcoord, ycoord]);
