@@ -74,7 +74,7 @@ const enblock_robot = (coord) => {
   else if (coord == 450) { return 1800; }
   else if (coord == 630) { return 2350; }
   else
-  ;
+    ;
 }
 
 @observer
@@ -83,7 +83,7 @@ export default class Body extends Component {
     super(props);
     this.state = {
       NarumiX: 0, NarumiY: 0,
-      MyX : 0, MyY:0,
+      MyX: 0, MyY: 0,
       markerPosition: [100, 100]
     }
   }
@@ -95,7 +95,7 @@ export default class Body extends Component {
       }
     }
 
-    
+
 
     if (nextProps.myXcoord !== this.state.MyX && nextProps.myXcoord !== null) {
       if (nextProps.myYcoord !== this.state.MyY && nextProps.myYcoord !== null) {
@@ -160,11 +160,13 @@ export default class Body extends Component {
   }
 
   render() {
-    const { taskQueue, myXcoord, myYcoord, narumiXcoord, narumiYcoord } = this.props
+    const { taskQueue } = this.props
 
     narumiMarker.setLatLng([this.state.NarumiX, this.state.NarumiY])
-    mymarker.setLatLng([this.state.MyX, this.state.MyY])
-    
+    var newMyX = enblock(this.state.MyY - 720)
+    var newMyY = enblock(this.state.MyX)
+    mymarker.setLatLng([newMyX, newMyY])
+
     return (
       <div>
         <Container textAlign='center'>
