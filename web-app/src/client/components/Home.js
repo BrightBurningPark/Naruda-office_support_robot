@@ -65,8 +65,8 @@ export default class Home extends Component {
                     </Grid>
 
                     {/* to be removed */}
-                    <strong>onChange:</strong>
-                    <pre>{JSON.stringify({ email, password }, null, 2)}</pre>
+                    {/* <strong>onChange:</strong>
+                    <pre>{JSON.stringify({ email, password }, null, 2)}</pre> */}
                 </div>
             )
         } else {

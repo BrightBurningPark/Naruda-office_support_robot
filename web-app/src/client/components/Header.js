@@ -38,7 +38,7 @@ export default class Header extends Component {
                 {/* {<Visibility onBottomPassed={this.stickTopMenu} onBottomVisible={this.unStickTopMenu} once={false} >
                     <Menu fixed={menuFixed ? 'top' : undefined} style={menuFixed ? fixedMenuStyle : menuStyle} > */}
                 <Menu style={fixedMenuStyle}>
-                    <Menu.Item header color='teal'>Naruda</Menu.Item>
+                    {/* <Menu.Item header color='teal'>Naruda</Menu.Item> */}
                     <Menu.Menu position='right'>
                         <Menu.Item header>{session.email}</Menu.Item>
                         <Button color='teal' fluid onClick={socket.editInfo} >My Info</Button>

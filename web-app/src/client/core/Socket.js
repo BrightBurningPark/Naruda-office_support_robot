@@ -100,8 +100,10 @@ class Socket {
   updateTask = () => {
     return new Promise((resolve, reject) => {
       this.socket.on('update_task', (res) => {
-        this.session.taskQueue = res
-        resolve(res)
+        if (res._arr) {
+          console.log('is res._arr : ' + res._arr)
+          this.session.taskQueue = res._arr
+        }
       })
     })
   }
