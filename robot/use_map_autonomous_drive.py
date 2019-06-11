@@ -96,13 +96,14 @@ def testcode():
     for point in navi.path_rally:
         auto_drive(point)
         print('drive done')
-        time.sleep(0.5)
+        #time.sleep(0.5)
     print('arrived on final destination')
     
 def handler(signum, frame):
     nxt.send('0')
     narslam.flag = 1
     t_slam.join()
+    print('ctrl+Z handling called')
     sys.exit(0)
 
 if __name__ == "__main__":
@@ -117,7 +118,7 @@ if __name__ == "__main__":
     
     nxt = ntdriver.lego_nxt()
     nxt.connect()
-    nxt.send('s30')
+    nxt.send('s40')
     print('nxt connected')
 
 
@@ -137,6 +138,6 @@ if __name__ == "__main__":
         else:
             nxt.send(cmd)
         
-        print('(', narslam.x, '|', narslam.y, '|', narslam.theta, ')')
+        print('(', narslam.x, '|', narslam.y, '| Angle: ', narslam.theta, ')')
 
         
