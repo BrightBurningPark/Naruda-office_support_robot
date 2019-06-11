@@ -35,7 +35,7 @@ exports = module.exports = function (io_web, io_narumi) {
 
         // 지속적으로 task와 position socket.emit
         setInterval(() => {
-            console.log('frequent socket events emitting')
+            // console.log('frequent socket events emitting')
             socket.emit('update_task', taskQueue)
             socket.emit('update_pos', position)
         }, 1000);

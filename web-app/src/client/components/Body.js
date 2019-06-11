@@ -41,6 +41,11 @@ var narumiMarker = L.marker([-25, -25], {
   icon: markericon_red,
 })
 
+var mymarker = L.marker([-25, -25], {
+  icon: markericon_yellow,
+})
+
+
 crs.transformation = new L.Transformation(1, -tileExtent[0], -1, tileExtent[3]);
 crs.scale = function (zoom) {
   return Math.pow(2, zoom) / mapMinResolution;
@@ -69,6 +74,7 @@ export default class Body extends Component {
     super(props);
     this.state = {
       NarumiX: 0, NarumiY: 0,
+      MyX : 0, MyY:0,
       markerPosition: [100, 100]
     }
   }
@@ -77,6 +83,12 @@ export default class Body extends Component {
     if (nextProps.narumiXcoord !== this.state.NarumiX && nextProps.narumiXcoord !== null) {
       if (nextProps.narumiYcoord !== this.state.NarumiY && nextProps.narumiYcoord !== null) {
         this.setState({ NarumiX: nextProps.narumiXcoord, NarumiY: nextProps.narumiYcoord });
+      }
+    }
+
+    if (nextProps.myXcoord !== this.state.MyX && nextProps.myXcoord !== null) {
+      if (nextProps.myYcoord !== this.state.MyY && nextProps.myYcoord !== null) {
+        this.setState({ MyX: nextProps.myXcoord, MyY: nextProps.myYcoord });
       }
     }
   }
@@ -102,6 +114,7 @@ export default class Body extends Component {
     }).addTo(this.map);
 
     narumiMarker.addTo(this.map);
+    mymarker.addTo(this.map);
 
     this.map.on('click', function (e) {
       let x = e.latlng;
@@ -137,7 +150,8 @@ export default class Body extends Component {
     const { taskQueue, myXcoord, myYcoord, narumiXcoord, narumiYcoord } = this.props
 
     narumiMarker.setLatLng([this.state.NarumiX, this.state.NarumiY])
-
+    mymarker.setLatLng([this.state.MyX, this.state.MyY])
+    
     return (
       <div>
         <Container textAlign='center'>
