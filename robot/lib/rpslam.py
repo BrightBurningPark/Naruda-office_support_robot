@@ -22,6 +22,7 @@ MIN_SAMPLES = 80
 class narlam:
     def __init__(self):
         self.flag = 0
+        self.pause = 0
         self.lidar = Lidar(LIDAR_DEVICE)
         self.slam = RMHC_SLAM(LaserModel(), MAP_SIZE_PIXELS, MAP_SIZE_METERS)
         #self.viz = MapVisualizer(MAP_SIZE_PIXELS, MAP_SIZE_METERS, 'SLAM')
@@ -37,6 +38,7 @@ class narlam:
 
     def slam_no_map(self, path_map, map_name_pgm, map_name_png):
         self.flag = 0
+        self.pause = 0
         path_map_name = path_map + '/' + map_name_pgm # map for reusing
 
         next(self.iterator)
@@ -44,6 +46,8 @@ class narlam:
         while True:
             if self.flag == 1:
                 break
+            if self.pause == 1:
+                continue
 
             items = [item for item in next(self.iterator)]
             distances = [item[2] for item in items]
@@ -81,6 +85,7 @@ class narlam:
 
     def slam_yes_map(self, path_map, map_name):
         self.flag = 0
+        self.pause = 0
         path_map_name = path_map + '/' + map_name
 
         map_bytearray, map_size = pgm_load(path_map_name)
@@ -91,6 +96,8 @@ class narlam:
         while True:
             if self.flag == 1:
                 break
+            if self.pause == 1:
+                pass
 
             items = [item for item in next(self.iterator)]
             distances = [item[2] for item in items]

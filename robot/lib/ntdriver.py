@@ -6,45 +6,41 @@ import os
 import socketio
 import time
 
+SERVER_ADDR = 'http://13.209.49.139:3010'
+
 class server:
-    SERVER_ADDR = 'http://13.209.49.139:3010'
     sio = socketio.Client()
+    request = None
 
     def __init__(self):
-        request = None
+        self.flag = 0
 
     def connect(self):
-        server.sio.connect(server.SERVER_ADDR)
+        server.sio.connect(SERVER_ADDR)
+        print('server connect called')
 
-    def report_position(self, slam):
-        # report current position to the server periodically
-        # period is... about 1000ms.
-        server.sio.emit('position', [slam.x, slam.y])
-        time.sleep(1)
+    def report_position(self, narslam):
+        self.flag = 0
+        while True:
+            if self.flag == 1:
+                break
+            server.sio.emit('position', [narslam.x, narslam.y])
+            print('position emitted')
+            time.sleep(1)
 
     def report_progress(self):
-        # emits 'ready to move' event to the server.
-        # this means the robot has finished current job from the server.
-        server.sio.emit('ready_to_move', )
-        
+        server.sio.emit('ready_to_move')
+        print('ready to move emitted')
 
     @sio.on('connect')
     def on_connect():
         print('connected to server')
 
-    @sio.on('message')
-    def on_message(data):
+    @sio.on('start_move')
+    def on_start_move(data):
         print(data)
-        print('default message received')
-
-    @sio.on('request')
-    def on_request(req):
-        if self.request == None:
-            print('received request from server')
-            self.reqest = req
-        else:
-            print('already busy!')
-            #TODO: maybe... sending ack?
+        server.request = data
+        print('start move is called')
 
     @sio.on('disconnect')
     def on_disconnect():
@@ -154,8 +150,7 @@ class lego_nxt:
         self.data = self.handle.bulkRead( self.NXTin.address, 4, timeout = 5000)
 
         if self.data[0] == ACK_STRING and self.data[1:3].tostring().decode('utf-8') == 'ok':
-            #print ('Acknowledgment string received from the brick')
-            pass
+            print ('Acknowledgment string received from the brick')
         else:
             print (self.data[1:3])
             print ('No acknowledgment')

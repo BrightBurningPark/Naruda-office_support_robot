@@ -71,18 +71,18 @@ def auto_drive(dest):
             else:
                 nxt.send(ntdriver.FORWARD)
 
-        time.sleep(0.15)
+        time.sleep(0.2)
 
     nxt.send(ntdriver.STOP)
     print('arrived to destination')
     print('(', narslam.x, narslam.y, narslam.theta, ')')
 
 
-def testcode():
+def testcode(x, y):
     print(narslam.x, narslam.y, narslam.theta)
     print('input destination cordination in milimeter here')
-    dest_x_milimeter = int(input('X in milimeter>> '))
-    dest_y_milimeter = int(input('Y in milimeter>> '))
+    dest_x_milimeter = x
+    dest_y_milimeter = y
     dest_milimeter = (dest_x_milimeter, dest_y_milimeter)
     
     start_milimeter = (narslam.x, narslam.y)
@@ -127,8 +127,18 @@ if __name__ == "__main__":
 #            exit(0)
         cmd = input("please give me order\n(\"goto\": run testcode | 0,1,2,3,4: move)\n>> ")
         if cmd == 'goto':
-            testcode()
+            x = input('x>> ')
+            y = input('y>> ')
+            testcode(x, y)
             print('testcode done')
+        elif cmd == 'run':
+            while True:
+                testcode(1800, 2200)
+                testcode(2300, 1800)
+                testcode(900, 900)
+                testcode(1400, 1400)
+                testcode(900, 1400)
+            
         elif cmd == 'exit':
             print('exit')
             nxt.send('0')
