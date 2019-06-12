@@ -4,25 +4,15 @@ var taskQueue = new Queue()
 var position = { xcoord: 200, ycoord: -300 }
 var interval
 
-const enblock = (coord) => {
-    if (coord <= -540) { return -630; }
-    else if (coord <= -360) { return -450; }
-    else if (coord <= -180) { return -270; }
-    else if (coord <= 0) { return -90; }
-    else if (coord <= 180) { return 90; }
-    else if (coord <= 360) { return 270; }
-    else if (coord <= 540) { return 450; }
-    else { return 630; }
-}
+const toMap = (x, y) =>{
+    var oldX = x;
+    var oldY = y;       
+    x = (oldY-650)*9/25-720;
+    y = (oldX-650)*9/25;
+    return [x,y]
+    }
 
-const enblock_robot = (coord) => {
-    if (coord == 90) { return 900; }
-    else if (coord == 270) { return 1400; }
-    else if (coord == 450) { return 1800; }
-    else if (coord == 630) { return 2350; }
-    else
-        ;
-}
+const
 
 /*
  * taskQueue의 object는 {
@@ -75,18 +65,22 @@ exports = module.exports = function (io_web, io_narumi) {
         socket.on('position', (message) => {
             console.log('from Narumi = x : ' + message[0] + ' y : ' + message[1])
             // message는 배열[x, y]
-            var dispX = message[1]
-            var dispY = message[0]
+            var res = toMap(message[0], message[1])
+            var dispX = res[0]
+            var dispY = res[1]
             position = { xcoord: dispX, ycoord: dispY }
-            console.log('display = ' + position)
+            console.log('display = x : ' + position.xcoord + ' y : ' + position.ycoord)
         })
 
         socket.on('ready_to_move', () => {
+                console.log('on ready_to_move')
             var comingTask = null
             interval = setInterval(() => {
                 if (comingTask = taskQueue.peek()) {
                     taskQueue.dequeue()
                     var message = [comingTask.xcoord, comingTask.ycoord, comingTask.type]
+                    console.log('message ' + message)
+                    console.log('sending signal')
                     socket.emit('start_move', message)
                     clearInterval(interval)
                 }
