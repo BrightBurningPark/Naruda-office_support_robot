@@ -3,6 +3,26 @@ import Queue from './Queue'
 var taskQueue = new Queue()
 var position = { xcoord: 200, ycoord: -300 }
 
+const enblock = (coord) => {
+    if (coord <= -540) { return -630; }
+    else if (coord <= -360) { return -450; }
+    else if (coord <= -180) { return -270; }
+    else if (coord <= 0) { return -90; }
+    else if (coord <= 180) { return 90; }
+    else if (coord <= 360) { return 270; }
+    else if (coord <= 540) { return 450; }
+    else { return 630; }
+}
+
+const enblock_robot = (coord) => {
+    if (coord == 90) { return 900; }
+    else if (coord == 270) { return 1400; }
+    else if (coord == 450) { return 1800; }
+    else if (coord == 630) { return 2350; }
+    else
+        ;
+}
+
 /*
  * taskQueue의 object는 {
      xcoord: '',
@@ -51,9 +71,14 @@ exports = module.exports = function (io_web, io_narumi) {
         console.log('client_narumi connected: ', socket.client.id)
 
         socket.on('position', (message) => {
+            console.log('from Narumi = x : ' + message[0] + ' y : ' + message[1])
             // message는 배열[x, y]
+            var toX = message[1]
+            toX = enblock_robot(toX)
+            var toY = message[0] + 720
+            toY = enblock_robot(toY)
             position = { xcoord: message[1] - 720, ycoord: message[0] }
-            console.log(position)
+            console.log('display = ' + position)
         })
 
         socket.on('ready_to_move', () => {
