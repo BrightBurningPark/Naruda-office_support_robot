@@ -9,7 +9,7 @@ class Socket {
   }
 
   signUp = (email, name, password) => {
-    axios.post('http://localhost:3000/signup', {
+    axios.post('http://13.209.49.139:3000/signup', {
       email: email,
       name: name,
       password: password
@@ -45,7 +45,7 @@ class Socket {
    * 틀리면 return false;
    */
   auth = (email, password) => {
-    axios.post('http://localhost:3000/signin', {
+    axios.post('http://13.209.49.139:3000/signin', {
       email: email,
       password: password
     }).then((res) => {
@@ -65,7 +65,7 @@ class Socket {
   }
 
   login = (email, x, y) => {
-    this.socket = io.connect('http://localhost:3000');
+    this.socket = io.connect('http://13.209.49.139:3000');
     this.session.email = email;
     this.session.myXcoord = x;
     this.session.myYcoord = y;
@@ -100,8 +100,10 @@ class Socket {
   updateTask = () => {
     return new Promise((resolve, reject) => {
       this.socket.on('update_task', (res) => {
-        this.session.taskQueue = res
-        resolve(res)
+        if (res._arr) {
+          console.log('is res._arr : ' + res._arr)
+          this.session.taskQueue = res._arr
+        }
       })
     })
   }

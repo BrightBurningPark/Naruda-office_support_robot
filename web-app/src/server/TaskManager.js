@@ -2,6 +2,17 @@ import Queue from './Queue'
 
 var taskQueue = new Queue()
 var position = { xcoord: 200, ycoord: -300 }
+var interval
+
+const toMap = (x, y) =>{
+    var oldX = x;
+    var oldY = y;       
+    x = (oldY-650)*9/25-720;
+    y = (oldX-650)*9/25;
+    return [x,y]
+    }
+
+const
 
 /*
  * taskQueue의 object는 {
@@ -35,7 +46,7 @@ exports = module.exports = function (io_web, io_narumi) {
 
         // 지속적으로 task와 position socket.emit
         setInterval(() => {
-            console.log('frequent socket events emitting')
+            // console.log('frequent socket events emitting')
             socket.emit('update_task', taskQueue)
             socket.emit('update_pos', position)
         }, 1000);
@@ -48,20 +59,32 @@ exports = module.exports = function (io_web, io_narumi) {
      * - 반복 -
      */
     io_narumi.on('connection', socket => {
+
         console.log('client_narumi connected: ', socket.client.id)
 
         socket.on('position', (message) => {
+            console.log('from Narumi = x : ' + message[0] + ' y : ' + message[1])
             // message는 배열[x, y]
-            position = { xcoord: message[1] - 720, ycoord: message[0] }
-            console.log(position)
+            var res = toMap(message[0], message[1])
+            var dispX = res[0]
+            var dispY = res[1]
+            position = { xcoord: dispX, ycoord: dispY }
+            console.log('display = x : ' + position.xcoord + ' y : ' + position.ycoord)
         })
 
         socket.on('ready_to_move', () => {
-            comingTask = taskQueue.dequeue()
-            if (comingTask != undefined) {
-                message = [comingTask.xcoord, comingTask.ycoord, comingTask.type]
-                socket.emit('start_move', message)
-            }
+                console.log('on ready_to_move')
+            var comingTask = null
+            interval = setInterval(() => {
+                if (comingTask = taskQueue.peek()) {
+                    taskQueue.dequeue()
+                    var message = [comingTask.xcoord, comingTask.ycoord, comingTask.type]
+                    console.log('message ' + message)
+                    console.log('sending signal')
+                    socket.emit('start_move', message)
+                    clearInterval(interval)
+                }
+            }, 1000);
         })
 
         socket.on('disconnect', () => {

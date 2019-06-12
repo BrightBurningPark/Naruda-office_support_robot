@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import { Form, Container } from 'semantic-ui-react'
+import { Button, Container, Segment } from 'semantic-ui-react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import styled from 'styled-components'
@@ -41,6 +41,11 @@ var narumiMarker = L.marker([-25, -25], {
   icon: markericon_red,
 })
 
+var mymarker = L.marker([-25, -25], {
+  icon: markericon_yellow,
+})
+
+
 crs.transformation = new L.Transformation(1, -tileExtent[0], -1, tileExtent[3]);
 crs.scale = function (zoom) {
   return Math.pow(2, zoom) / mapMinResolution;
@@ -49,13 +54,36 @@ crs.zoom = function (scale) {
   return Math.log(scale * mapMinResolution) / Math.LN2;
 };
 
+var toX = 0;
+var toY = 0;
+
+const enblock = (coord) => {
+  if (coord <= -540) { return -630; }
+  else if (coord <= -360) { return -450; }
+  else if (coord <= -180) { return -270; }
+  else if (coord <= 0) { return -90; }
+  else if (coord <= 180) { return 90; }
+  else if (coord <= 360) { return 270; }
+  else if (coord <= 540) { return 450; }
+  else { return 630; }
+}
+
+const enblock_robot = (coord) => {
+  if (coord == 90) { return 900; }
+  else if (coord == 270) { return 1400; }
+  else if (coord == 450) { return 1800; }
+  else if (coord == 630) { return 2350; }
+  else
+    ;
+}
+
 @observer
 export default class Body extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      xcoord: '', ycoord: '',
       NarumiX: 0, NarumiY: 0,
+      MyX: 0, MyY: 0,
       markerPosition: [100, 100]
     }
   }
@@ -64,6 +92,14 @@ export default class Body extends Component {
     if (nextProps.narumiXcoord !== this.state.NarumiX && nextProps.narumiXcoord !== null) {
       if (nextProps.narumiYcoord !== this.state.NarumiY && nextProps.narumiYcoord !== null) {
         this.setState({ NarumiX: nextProps.narumiXcoord, NarumiY: nextProps.narumiYcoord });
+      }
+    }
+
+
+
+    if (nextProps.myXcoord !== this.state.MyX && nextProps.myXcoord !== null) {
+      if (nextProps.myYcoord !== this.state.MyY && nextProps.myYcoord !== null) {
+        this.setState({ MyX: nextProps.myXcoord, MyY: nextProps.myYcoord });
       }
     }
   }
@@ -89,13 +125,19 @@ export default class Body extends Component {
     }).addTo(this.map);
 
     narumiMarker.addTo(this.map);
+    mymarker.addTo(this.map);
 
     this.map.on('click', function (e) {
       let x = e.latlng;
-      // xcoord: message[1] - 720, ycoord: message[0]
-      var xcoord = x.lng
-      var ycoord = x.lat + 720
-      destMarker.setLatLng(x);
+      var xcoord = enblock(x.lat)
+      var ycoord = enblock(x.lng)
+      toX = ycoord
+      toX = enblock_robot(toX)
+      toY = xcoord + 720
+      toY = enblock_robot(toY)
+      console.log("x" + xcoord + "bx" + x.lat);
+      console.log("y" + ycoord + "by" + x.lng);
+      destMarker.setLatLng([xcoord, ycoord]);
     });
 
     this.map.fitBounds([
@@ -114,32 +156,39 @@ export default class Body extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.addTask(this.state.xcoord, this.state.ycoord);
+    this.props.addTask(toX, toY);
   }
 
   render() {
-    const { xcoord, ycoord } = this.state
-    const { taskQueue, myXcoord, myYcoord, narumiXcoord, narumiYcoord } = this.props
+    const { taskQueue } = this.props
 
     narumiMarker.setLatLng([this.state.NarumiX, this.state.NarumiY])
+    var newMyX = enblock(this.state.MyY - 720)
+    var newMyY = enblock(this.state.MyX)
+    mymarker.setLatLng([newMyX, newMyY])
 
     return (
       <div>
         <Container textAlign='center'>
           <Wrapper width="1000px" height="720px" id="map" />
         </Container>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group>
-            <Form.Input fluid label='X Coordinate' placeholder='X Coordinate' name='xcoord' value={xcoord} onChange={this.handleChange} />
-            <Form.Input fluid label='Y Coordinate' placeholder='Y Coordinate' name='ycoord' value={ycoord} onChange={this.handleChange} />
-            <Form.Button type='submit'>Call Narumi</Form.Button>
-          </Form.Group>
-        </Form>
+        <Button onClick={this.handleSubmit}>Call Narumi</Button>
+
+        {
+          taskQueue.map((task) => {
+            return (
+              <Segment.Group horizontal>
+                <Segment>나르미가 다음 이동할 X : {task.xcoord}</Segment>
+                <Segment>나르미가 다음 이동할 Y : {task.ycoord}</Segment>
+                <Segment>{task.type}</Segment>
+              </Segment.Group>
+            );
+          })
+        }
 
         {/* to be removed */}
-        <strong>onChange:</strong>
-        <pre>{JSON.stringify({ xcoord, ycoord, myXcoord, myYcoord, narumiXcoord, narumiYcoord }, null, 6)}</pre>
-        <pre>{JSON.stringify({ taskQueue }, null, 1)}</pre>
+        {/* <strong>onChange:</strong>
+        <pre>{JSON.stringify({ toX, toY, myXcoord, myYcoord, narumiXcoord, narumiYcoord }, null, 6)}</pre> */}
       </div>
     );
   }
