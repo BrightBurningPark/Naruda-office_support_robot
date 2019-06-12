@@ -2,6 +2,7 @@ import Queue from './Queue'
 
 var taskQueue = new Queue()
 var position = { xcoord: 200, ycoord: -300 }
+var interval
 
 const enblock = (coord) => {
     if (coord <= -540) { return -630; }
@@ -68,25 +69,28 @@ exports = module.exports = function (io_web, io_narumi) {
      * - 반복 -
      */
     io_narumi.on('connection', socket => {
+
         console.log('client_narumi connected: ', socket.client.id)
 
         socket.on('position', (message) => {
             console.log('from Narumi = x : ' + message[0] + ' y : ' + message[1])
             // message는 배열[x, y]
-            var toX = message[1]
-            toX = enblock_robot(toX)
-            var toY = message[0] + 720
-            toY = enblock_robot(toY)
-            position = { xcoord: message[1] - 720, ycoord: message[0] }
+            var dispX = message[1]
+            var dispY = message[0]
+            position = { xcoord: dispX, ycoord: dispY }
             console.log('display = ' + position)
         })
 
         socket.on('ready_to_move', () => {
-            comingTask = taskQueue.dequeue()
-            if (comingTask != undefined) {
-                message = [comingTask.xcoord, comingTask.ycoord, comingTask.type]
-                socket.emit('start_move', message)
-            }
+            var comingTask = null
+            interval = setInterval(() => {
+                if (comingTask = taskQueue.peek()) {
+                    taskQueue.dequeue()
+                    var message = [comingTask.xcoord, comingTask.ycoord, comingTask.type]
+                    socket.emit('start_move', message)
+                    clearInterval(interval)
+                }
+            }, 1000);
         })
 
         socket.on('disconnect', () => {
