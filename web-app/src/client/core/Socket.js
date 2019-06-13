@@ -1,6 +1,14 @@
 import io from 'socket.io-client';
 import axios from 'axios';
 
+const toNarumi = (x, y) => {
+  var oldX = x;
+  var oldY = y;
+  x = (oldY + 650) / 9 * 25 + 720;
+  y = (oldX + 650) / 9 * 25;
+  return [x, y]
+}
+
 // todo : 사용자 위치 DB 동기화?
 class Socket {
   constructor({ session }) {
@@ -83,7 +91,8 @@ class Socket {
   }
 
   addTask = (xcoord, ycoord) => {
-    this.socket.emit('new_task', { fromXcoord: this.session.myXcoord, fromYcoord: this.session.myYcoord, toXcoord: xcoord, toYcoord: ycoord })
+    let newXY = toNarumi(xcoord, ycoord)
+    this.socket.emit('new_task', { fromXcoord: newXY[0], fromYcoord: newXY[1], toXcoord: xcoord, toYcoord: ycoord })
     console.log('emit new_task')
   }
 

@@ -4,15 +4,13 @@ var taskQueue = new Queue()
 var position = { xcoord: 200, ycoord: -300 }
 var interval
 
-const toMap = (x, y) =>{
+const toMap = (x, y) => {
     var oldX = x;
-    var oldY = y;       
-    x = (oldY-650)*9/25-720;
-    y = (oldX-650)*9/25;
-    return [x,y]
-    }
-
-const
+    var oldY = y;
+    x = (oldY - 650) * 9 / 25 - 720;
+    y = (oldX - 650) * 9 / 25;
+    return [x, y]
+}
 
 /*
  * taskQueue의 object는 {
@@ -73,7 +71,7 @@ exports = module.exports = function (io_web, io_narumi) {
         })
 
         socket.on('ready_to_move', () => {
-                console.log('on ready_to_move')
+            console.log('on ready_to_move')
             var comingTask = null
             interval = setInterval(() => {
                 if (comingTask = taskQueue.peek()) {
