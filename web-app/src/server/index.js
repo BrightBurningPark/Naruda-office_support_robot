@@ -50,10 +50,12 @@ app.post('/signup', function (req, res) {
   var email = req.body.email;
   var name = req.body.name;
   var password = req.body.password;
+  var xcoord = req.body.xcoord;
+  var ycoord = req.body.ycoord;
   var sqlCheckEmail = "SELECT * FROM naruda_db01.user_table WHERE email_addr = ?"
-  var sqlSignup = "INSERT INTO naruda_db01.user_table (`email_addr`, `name`, `password`) VALUES (?, ?, ?);"
+  var sqlSignup = "INSERT INTO naruda_db01.user_table (`email_addr`, `name`, `password`, `coord_x`, `coord_y`) VALUES (?, ?, ?, ?, ?);"
 
-  console.log('signin request, email: ' + email + ' name: ' + name + ' password: ' + password)
+  console.log('signin request, email: ' + email + ' name: ' + name + ' password: ' + password + ' xcoord: ' + xcoord + ' ycoord: ' + ycoord)
 
   // 중복 메일 check
   con.query(sqlCheckEmail, [email], function (err, rows) {
@@ -66,7 +68,7 @@ app.post('/signup', function (req, res) {
       res.send('email_error');
     }
     else {
-      con.query(sqlSignup, [email, name, password], function (err, rows) {
+      con.query(sqlSignup, [email, name, password, xcoord, ycoord], function (err, rows) {
         if (err) {
           console.log(err)
           return
