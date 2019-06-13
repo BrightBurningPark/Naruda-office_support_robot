@@ -21,11 +21,13 @@ class Socket {
     this.session = session;
   }
 
-  signUp = (email, name, password) => {
+  signUp = (email, name, password, xcoord, ycoord) => {
     axios.post('http://13.209.49.139:3000/signup', {
       email: email,
       name: name,
-      password: password
+      password: password,
+      xcoord: xcoord,
+      ycoord: ycoord
     }).then((res) => {
       if (res.data == 'signup_success') {
         console.log('signup success')
