@@ -42,8 +42,8 @@ export default class SignUpForm extends Component {
                         <Button color='teal' fluid size='large' onClick={socket.resetNewcomer}>Log In</Button>
                     </Grid.Column>
                 </Grid>
-                <strong>onChange:</strong>
-                <pre>{JSON.stringify({ email, name, password }, null, 3)}</pre>
+                {/*<strong>onChange:</strong>
+                <pre>{JSON.stringify({ email, name, password }, null, 3)}</pre>*/}
             </div>
         )
     }
