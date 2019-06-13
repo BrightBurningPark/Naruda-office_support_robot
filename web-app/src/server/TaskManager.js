@@ -12,6 +12,12 @@ const toMap = (x, y) => {
     return [x, y]
 }
 
+const toNarumi = (coord) => {
+    var oldCoord = coord;
+    var newCoord = oldCoord * 25 / 9 + 650
+    return newCoord
+}
+
 /*
  * taskQueue의 object는 {
      xcoord: '',
@@ -27,7 +33,9 @@ exports = module.exports = function (io_web, io_narumi) {
 
         socket.on('new_task', (message) => {
             console.log(message)
-            taskQueue.enqueue({ xcoord: message.fromXcoord, ycoord: message.fromYcoord, type: 'A' })
+            let myX = toNarumi(message.fromXcoord)
+            let myY = toNarumi(message.fromYcoord)
+            taskQueue.enqueue({ xcoord: myX, ycoord: myY, type: 'A' })
             taskQueue.enqueue({ xcoord: message.toXcoord, ycoord: message.toYcoord, type: 'B' })
             console.log(taskQueue)
         })
