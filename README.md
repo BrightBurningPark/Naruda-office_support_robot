@@ -6,7 +6,7 @@
 making a robot which can do cleaning and delivering docs or drinks simultaneously, and Autonomously!
 we only have 2~3 months, and 4 devs, and no electronics / robotics major! Yay!
 
-it's gonna be real hard-as-shit project.
+it's gonna be really difficult project.
 
 ## Wiki page is [here](https://github.com/BrightBurningPark/Naruda-office_support_robot/wiki)
 
