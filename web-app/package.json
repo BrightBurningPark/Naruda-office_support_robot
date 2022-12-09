@@ -15,7 +15,7 @@
     "axios": "^0.21.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "html": "^1.0.0",
     "leaflet": "^1.5.1",
     "leaflet-mouse-position": "^1.2.0",
