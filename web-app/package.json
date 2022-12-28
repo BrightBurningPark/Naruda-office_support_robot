@@ -48,7 +48,7 @@
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "mysql": "^2.16.0",
-    "nodemon": "^1.18.10",
+    "nodemon": "^2.0.20",
     "react-hot-loader": "^4.8.4",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
